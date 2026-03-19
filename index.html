@@ -1,0 +1,3966 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI CLI Commands Reference — Claude Code & GitHub Copilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0a0c10;
+        --bg2: #0f1117;
+        --bg3: #14161e;
+        --bg4: #1a1d27;
+        --border: #1e2233;
+        --border2: #252840;
+        --text: #e2e8f0;
+        --text2: #94a3b8;
+        --text3: #64748b;
+        --claude-pri: #d97706;
+        --claude-sec: #f59e0b;
+        --claude-dim: rgba(217, 119, 6, 0.12);
+        --claude-glow: rgba(245, 158, 11, 0.08);
+        --cop-pri: #6366f1;
+        --cop-sec: #818cf8;
+        --cop-dim: rgba(99, 102, 241, 0.12);
+        --cop-glow: rgba(99, 102, 241, 0.08);
+        --green: #10b981;
+        --green-dim: rgba(16, 185, 129, 0.12);
+        --red: #f43f5e;
+        --red-dim: rgba(244, 63, 94, 0.1);
+        --cyan: #06b6d4;
+        --cyan-dim: rgba(6, 182, 212, 0.1);
+        --purple: #a855f7;
+        --purple-dim: rgba(168, 85, 247, 0.1);
+        --radius: 10px;
+        --radius-sm: 6px;
+        --shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+        --font-mono: 'IBM Plex Mono', monospace;
+        --font-sans: 'DM Sans', sans-serif;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ── GRID BACKGROUND ── */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* ── HEADER ── */
+      .header {
+        position: relative;
+        z-index: 10;
+        padding: 40px 48px 32px;
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(
+          180deg,
+          rgba(10, 12, 16, 0.98) 0%,
+          rgba(10, 12, 16, 0.6) 100%
+        );
+        backdrop-filter: blur(20px);
+      }
+
+      .header-inner {
+        max-width: 1440px;
+        margin: 0 auto;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .header-left {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .header-eyebrow {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text3);
+        letter-spacing: 3px;
+        text-transform: uppercase;
+      }
+
+      .header-title {
+        font-size: 32px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        line-height: 1;
+        background: linear-gradient(135deg, #fff 30%, var(--text2) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .header-sub {
+        font-size: 13px;
+        color: var(--text3);
+        font-weight: 400;
+        margin-top: 4px;
+      }
+
+      .header-badges {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 10px;
+        border-radius: 99px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+      }
+      .badge-green {
+        background: var(--green-dim);
+        color: var(--green);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+      }
+      .badge-amber {
+        background: var(--claude-dim);
+        color: var(--claude-sec);
+        border: 1px solid rgba(245, 158, 11, 0.2);
+      }
+      .badge-purple {
+        background: var(--cop-dim);
+        color: var(--cop-sec);
+        border: 1px solid rgba(99, 102, 241, 0.25);
+      }
+      .badge-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+
+      /* ── MAIN TABS ── */
+      .main-tabs {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(10, 12, 16, 0.95);
+        backdrop-filter: blur(24px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 48px;
+      }
+
+      .main-tabs-inner {
+        max-width: 1440px;
+        margin: 0 auto;
+        display: flex;
+        gap: 0;
+      }
+
+      .main-tab {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 18px 28px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        color: var(--text3);
+        border: none;
+        background: none;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+        letter-spacing: 0.2px;
+      }
+
+      .main-tab:hover {
+        color: var(--text2);
+      }
+
+      .main-tab.active-claude {
+        color: var(--claude-sec);
+        border-bottom-color: var(--claude-sec);
+      }
+
+      .main-tab.active-copilot {
+        color: var(--cop-sec);
+        border-bottom-color: var(--cop-sec);
+      }
+
+      .tab-icon {
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+
+      .tab-icon-claude {
+        background: var(--claude-dim);
+        color: var(--claude-sec);
+      }
+      .tab-icon-copilot {
+        background: var(--cop-dim);
+        color: var(--cop-sec);
+      }
+
+      /* ── CONTENT ── */
+      .content {
+        position: relative;
+        z-index: 1;
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 32px 48px 80px;
+      }
+
+      .tab-panel {
+        display: none;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+
+      /* ── SUB TABS ── */
+      .sub-tabs {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+        margin-bottom: 32px;
+        padding: 6px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+      }
+
+      .sub-tab {
+        padding: 8px 16px;
+        border-radius: var(--radius-sm);
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+        color: var(--text3);
+        border: none;
+        background: none;
+        transition: all 0.18s;
+        letter-spacing: 0.3px;
+      }
+
+      .sub-tab:hover {
+        color: var(--text2);
+        background: var(--bg3);
+      }
+
+      .claude-panel .sub-tab.active {
+        background: var(--claude-dim);
+        color: var(--claude-sec);
+        border: 1px solid rgba(245, 158, 11, 0.2);
+      }
+
+      .copilot-panel .sub-tab.active {
+        background: var(--cop-dim);
+        color: var(--cop-sec);
+        border: 1px solid rgba(99, 102, 241, 0.25);
+      }
+
+      .sub-panel {
+        display: none;
+      }
+      .sub-panel.active {
+        display: block;
+      }
+
+      /* ── SECTION HEADER ── */
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .section-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+      .si-claude {
+        background: var(--claude-dim);
+        border: 1px solid rgba(245, 158, 11, 0.2);
+      }
+      .si-cop {
+        background: var(--cop-dim);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+      }
+      .si-green {
+        background: var(--green-dim);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+      }
+      .si-cyan {
+        background: var(--cyan-dim);
+        border: 1px solid rgba(6, 182, 212, 0.2);
+      }
+      .si-purple {
+        background: var(--purple-dim);
+        border: 1px solid rgba(168, 85, 247, 0.2);
+      }
+      .si-red {
+        background: var(--red-dim);
+        border: 1px solid rgba(244, 63, 94, 0.2);
+      }
+
+      .section-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .section-desc {
+        font-size: 12.5px;
+        color: var(--text3);
+        margin-top: 2px;
+      }
+
+      /* ── COMMAND GRID ── */
+      .cmd-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+        gap: 12px;
+        margin-bottom: 32px;
+      }
+
+      .cmd-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px 20px;
+        transition: all 0.18s;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cmd-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        opacity: 0;
+        transition: opacity 0.18s;
+      }
+
+      .cmd-card:hover {
+        border-color: var(--border2);
+        background: var(--bg3);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow);
+      }
+      .cmd-card:hover::before {
+        opacity: 1;
+      }
+
+      .cmd-card.claude-card::before {
+        background: linear-gradient(
+          90deg,
+          var(--claude-pri),
+          var(--claude-sec)
+        );
+      }
+      .cmd-card.cop-card::before {
+        background: linear-gradient(90deg, var(--cop-pri), var(--cop-sec));
+      }
+      .cmd-card.green-card::before {
+        background: linear-gradient(90deg, #059669, var(--green));
+      }
+      .cmd-card.cyan-card::before {
+        background: linear-gradient(90deg, #0891b2, var(--cyan));
+      }
+
+      .cmd-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .cmd-name {
+        font-family: var(--font-mono);
+        font-size: 13.5px;
+        font-weight: 600;
+        padding: 3px 8px;
+        border-radius: 5px;
+        letter-spacing: -0.3px;
+      }
+
+      .cn-claude {
+        background: var(--claude-dim);
+        color: var(--claude-sec);
+        border: 1px solid rgba(245, 158, 11, 0.2);
+      }
+      .cn-cop {
+        background: var(--cop-dim);
+        color: var(--cop-sec);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+      }
+      .cn-green {
+        background: var(--green-dim);
+        color: var(--green);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+      }
+      .cn-cyan {
+        background: var(--cyan-dim);
+        color: var(--cyan);
+        border: 1px solid rgba(6, 182, 212, 0.2);
+      }
+      .cn-purple {
+        background: var(--purple-dim);
+        color: var(--purple);
+        border: 1px solid rgba(168, 85, 247, 0.2);
+      }
+      .cn-red {
+        background: var(--red-dim);
+        color: var(--red);
+        border: 1px solid rgba(244, 63, 94, 0.2);
+      }
+
+      .cmd-tags {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+        margin-left: auto;
+      }
+
+      .cmd-tag {
+        font-size: 10px;
+        font-family: var(--font-mono);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 500;
+        letter-spacing: 0.2px;
+      }
+
+      .tag-essential {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--green);
+        border: 1px solid rgba(16, 185, 129, 0.15);
+      }
+      .tag-advanced {
+        background: rgba(168, 85, 247, 0.1);
+        color: var(--purple);
+        border: 1px solid rgba(168, 85, 247, 0.15);
+      }
+      .tag-perf {
+        background: rgba(6, 182, 212, 0.1);
+        color: var(--cyan);
+        border: 1px solid rgba(6, 182, 212, 0.15);
+      }
+      .tag-new {
+        background: rgba(244, 63, 94, 0.1);
+        color: var(--red);
+        border: 1px solid rgba(244, 63, 94, 0.15);
+      }
+      .tag-config {
+        background: rgba(99, 102, 241, 0.1);
+        color: var(--cop-sec);
+        border: 1px solid rgba(99, 102, 241, 0.15);
+      }
+
+      .cmd-usage {
+        font-size: 12px;
+        color: var(--text2);
+        line-height: 1.5;
+      }
+
+      .cmd-example {
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        color: var(--text3);
+        background: var(--bg);
+        padding: 8px 12px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        margin-top: 2px;
+        line-height: 1.6;
+      }
+
+      .cmd-example span.highlight-claude {
+        color: var(--claude-sec);
+      }
+      .cmd-example span.highlight-cop {
+        color: var(--cop-sec);
+      }
+      .cmd-example span.highlight-green {
+        color: var(--green);
+      }
+      .cmd-example span.comment {
+        color: var(--text3);
+      }
+
+      /* ── KEYBOARD SHORTCUTS ── */
+      .kbd-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+        gap: 8px;
+        margin-bottom: 32px;
+      }
+
+      .kbd-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        gap: 12px;
+      }
+
+      .kbd-label {
+        font-size: 12px;
+        color: var(--text2);
+        flex: 1;
+      }
+
+      .kbd-keys {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        flex-shrink: 0;
+      }
+
+      kbd {
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        font-weight: 500;
+        padding: 3px 7px;
+        background: var(--bg4);
+        border: 1px solid var(--border2);
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        color: var(--text);
+      }
+
+      .kbd-plus {
+        font-size: 10px;
+        color: var(--text3);
+      }
+
+      /* ── INFO BOX ── */
+      .info-box {
+        display: flex;
+        gap: 14px;
+        padding: 16px 20px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin-bottom: 20px;
+      }
+
+      .info-icon {
+        font-size: 18px;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      .info-content {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .info-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text);
+      }
+
+      .info-text {
+        font-size: 12px;
+        color: var(--text2);
+        line-height: 1.6;
+      }
+
+      /* ── TIPS SECTION ── */
+      .tips-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 12px;
+        margin-bottom: 32px;
+      }
+
+      .tip-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .tip-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .tip-num {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+
+      .tn-claude {
+        background: var(--claude-dim);
+        color: var(--claude-sec);
+      }
+      .tn-cop {
+        background: var(--cop-dim);
+        color: var(--cop-sec);
+      }
+      .tn-green {
+        background: var(--green-dim);
+        color: var(--green);
+      }
+
+      .tip-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .tip-body {
+        font-size: 12px;
+        color: var(--text2);
+        line-height: 1.6;
+      }
+
+      .tip-code {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text3);
+        background: var(--bg);
+        padding: 8px 12px;
+        border-radius: var(--radius-sm);
+        border-left: 2px solid var(--border2);
+        line-height: 1.7;
+      }
+
+      /* ── TABLE ── */
+      .ref-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 24px;
+        font-size: 12.5px;
+      }
+
+      .ref-table th {
+        text-align: left;
+        padding: 10px 14px;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        color: var(--text3);
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-family: var(--font-mono);
+      }
+
+      .ref-table td {
+        padding: 10px 14px;
+        border: 1px solid var(--border);
+        background: var(--bg2);
+        vertical-align: top;
+        line-height: 1.5;
+      }
+
+      .ref-table tr:hover td {
+        background: var(--bg3);
+      }
+
+      .ref-table td:first-child {
+        font-family: var(--font-mono);
+        font-size: 12px;
+      }
+
+      /* ── SECTION DIVIDER ── */
+      .divider {
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--border),
+          transparent
+        );
+        margin: 32px 0;
+      }
+
+      /* ── INSTALL BLOCK ── */
+      .install-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+
+      .install-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .install-icon {
+        font-size: 20px;
+        flex-shrink: 0;
+        width: 36px;
+        text-align: center;
+      }
+
+      .install-info {
+        flex: 1;
+      }
+      .install-label {
+        font-size: 11px;
+        color: var(--text3);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 4px;
+      }
+      .install-cmd {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text2);
+      }
+
+      /* ── SEARCH BAR ── */
+      .search-bar {
+        position: relative;
+        margin-bottom: 28px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 12px 16px 12px 42px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        color: var(--text);
+        font-size: 13px;
+        font-family: var(--font-sans);
+        outline: none;
+        transition: border-color 0.18s;
+      }
+
+      .search-input:focus {
+        border-color: var(--border2);
+      }
+      .search-input::placeholder {
+        color: var(--text3);
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text3);
+        font-size: 15px;
+        pointer-events: none;
+      }
+
+      /* ── FOOTER ── */
+      .footer {
+        border-top: 1px solid var(--border);
+        padding: 24px 48px;
+        text-align: center;
+        font-size: 11.5px;
+        color: var(--text3);
+        font-family: var(--font-mono);
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ── SCROLLBAR ── */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border2);
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--text3);
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 768px) {
+        .header {
+          padding: 24px 20px 20px;
+        }
+        .main-tabs {
+          padding: 0 20px;
+        }
+        .content {
+          padding: 20px 20px 60px;
+        }
+        .cmd-grid {
+          grid-template-columns: 1fr;
+        }
+        .kbd-grid {
+          grid-template-columns: 1fr;
+        }
+        .tips-grid {
+          grid-template-columns: 1fr;
+        }
+        .install-grid {
+          grid-template-columns: 1fr;
+        }
+        .header-title {
+          font-size: 24px;
+        }
+        .main-tab {
+          padding: 14px 16px;
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-inner">
+        <div class="header-left">
+          <span class="header-eyebrow">// developer reference · 2026</span>
+          <h1 class="header-title">AI CLI Commands Reference</h1>
+          <p class="header-sub">
+            Claude Code &amp; GitHub Copilot CLI — Complete terminal, IDE &amp;
+            optimization guide
+          </p>
+        </div>
+        <div class="header-badges">
+          <span class="badge badge-green"
+            ><span class="badge-dot"></span>Updated March 2026</span
+          >
+          <span class="badge badge-amber">Claude Code v2.x</span>
+          <span class="badge badge-purple">Copilot CLI v1.0.5</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN TABS -->
+    <nav class="main-tabs">
+      <div class="main-tabs-inner">
+        <button class="main-tab active-claude" data-panel="claude">
+          <span class="tab-icon tab-icon-claude">🔶</span>
+          Claude Code
+        </button>
+        <button class="main-tab" data-panel="copilot">
+          <span class="tab-icon tab-icon-copilot">🟣</span>
+          GitHub Copilot
+        </button>
+        <button class="main-tab" data-panel="optimize">
+          <span
+            class="tab-icon"
+            style="background: var(--green-dim); color: var(--green)"
+            >⚡</span
+          >
+          Token Optimization
+        </button>
+      </div>
+    </nav>
+
+    <!-- CONTENT -->
+    <main class="content">
+      <!-- ════════════════ CLAUDE CODE ════════════════ -->
+      <div class="tab-panel active claude-panel" id="panel-claude">
+        <div class="sub-tabs">
+          <button class="sub-tab active" data-sub="claude-install">
+            Installation
+          </button>
+          <button class="sub-tab" data-sub="claude-slash">
+            Slash Commands
+          </button>
+          <button class="sub-tab" data-sub="claude-cli">CLI Flags</button>
+          <button class="sub-tab" data-sub="claude-keyboard">
+            Keyboard Shortcuts
+          </button>
+          <button class="sub-tab" data-sub="claude-session">
+            Session Management
+          </button>
+          <button class="sub-tab" data-sub="claude-config">
+            Configuration
+          </button>
+          <button class="sub-tab" data-sub="claude-ide">IDE Integration</button>
+        </div>
+
+        <!-- INSTALL -->
+        <div class="sub-panel active" id="sub-claude-install">
+          <div class="section-header">
+            <div class="section-icon si-claude">📦</div>
+            <div>
+              <div class="section-title">Installation &amp; Setup</div>
+              <div class="section-desc">
+                Get Claude Code running in your terminal
+              </div>
+            </div>
+          </div>
+          <div class="install-grid">
+            <div class="install-card">
+              <div class="install-icon">📦</div>
+              <div class="install-info">
+                <div class="install-label">npm (recommended)</div>
+                <div class="install-cmd">
+                  npm install -g @anthropic-ai/claude-code
+                </div>
+              </div>
+            </div>
+            <div class="install-card">
+              <div class="install-icon">🔑</div>
+              <div class="install-info">
+                <div class="install-label">Authenticate</div>
+                <div class="install-cmd">claude auth login</div>
+              </div>
+            </div>
+            <div class="install-card">
+              <div class="install-icon">✅</div>
+              <div class="install-info">
+                <div class="install-label">Check Auth Status</div>
+                <div class="install-cmd">claude auth status</div>
+              </div>
+            </div>
+            <div class="install-card">
+              <div class="install-icon">🚀</div>
+              <div class="install-info">
+                <div class="install-label">Start Session</div>
+                <div class="install-cmd">claude</div>
+              </div>
+            </div>
+            <div class="install-card">
+              <div class="install-icon">💬</div>
+              <div class="install-info">
+                <div class="install-label">One-shot Query</div>
+                <div class="install-cmd">claude "your prompt here"</div>
+              </div>
+            </div>
+            <div class="install-card">
+              <div class="install-icon">🔄</div>
+              <div class="install-info">
+                <div class="install-label">Resume Last Session</div>
+                <div class="install-cmd">claude -c</div>
+              </div>
+            </div>
+            <div class="install-card">
+              <div class="install-icon">🖥️</div>
+              <div class="install-info">
+                <div class="install-label">Open in VS Code</div>
+                <div class="install-cmd">claude --vscode</div>
+              </div>
+            </div>
+            <div class="install-card">
+              <div class="install-icon">🔍</div>
+              <div class="install-info">
+                <div class="install-label">Check Version</div>
+                <div class="install-cmd">claude --version</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <div class="info-icon">💡</div>
+            <div class="info-content">
+              <div class="info-title">Requirements</div>
+              <div class="info-text">
+                Requires Node.js 18+. Needs a Claude Pro ($20/month) or Claude
+                Max ($100+/month) subscription, or Anthropic API access. Works
+                on macOS, Linux, and Windows (WSL recommended).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLASH COMMANDS -->
+        <div class="sub-panel" id="sub-claude-slash">
+          <div class="section-header">
+            <div class="section-icon si-claude">⚡</div>
+            <div>
+              <div class="section-title">Slash Commands</div>
+              <div class="section-desc">
+                In-session commands — type these at the Claude Code prompt
+              </div>
+            </div>
+          </div>
+
+          <div class="cmd-grid">
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/help</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Shows all available slash commands including custom commands
+                from your <code>.claude/commands/</code> directory and connected
+                MCP servers.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/help</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/compact</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span
+                  ><span class="cmd-tag tag-perf">perf</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Compresses conversation history into a dense summary, freeing
+                context window space. Pass instructions to control what gets
+                retained. Use when context usage exceeds 80%.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/compact</span>
+                <span class="highlight-claude">/compact</span>
+                <span class="comment"
+                  >Focus on the auth module and current test failures</span
+                >
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/clear</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Hard reset — wipes conversation history entirely and frees all
+                context. Also aliased as <code>/reset</code> and
+                <code>/new</code>. Use at task boundaries when switching to
+                something unrelated.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/clear</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/init</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span
+                  ><span class="cmd-tag tag-config">config</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Analyzes your project and generates a
+                <code>CLAUDE.md</code> file containing project-specific rules,
+                conventions, and context that persists across all sessions.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/init</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/model</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span
+                  ><span class="cmd-tag tag-perf">perf</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Switch AI models mid-session without losing conversation. Use
+                Sonnet for exploration and file reading; Opus for complex
+                problems. Switching reduces token costs significantly.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/model</span> sonnet
+                <span class="highlight-claude">/model</span> opus
+                <span class="highlight-claude">/model</span> haiku
+                <span class="comment"># cheapest, fast tasks</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/diff</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Opens an interactive diff viewer showing all changes made during
+                the session. Toggle between full git diff and per-turn diffs,
+                navigate between files with arrow keys.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/diff</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/cost</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-perf">perf</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Shows API token usage and cost for the current session (API
+                users). Pro/Max subscribers use <code>/stats</code> instead.
+                Helps build intuition for expensive tasks.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/cost</span>
+                <span class="highlight-claude">/stats</span>
+                <span class="comment"># Pro/Max subscribers</span>
+                <span class="highlight-claude">/context</span>
+                <span class="comment"># check context window fullness</span>
+                <span class="highlight-claude">/usage</span>
+                <span class="comment"># check rate limit proximity</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/plan</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Puts Claude in read-only mode. It can read and analyze but
+                cannot make changes — all proposed modifications require
+                explicit approval. Also toggled via Shift+Tab. Use before
+                touching production-critical files.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/plan</span>
+                <span class="comment"># also Shift+Tab to toggle</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/resume</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Picks up a previous session. Without arguments opens a session
+                picker. With a name, jumps directly there. Alias:
+                <code>/continue</code>. CLI equivalent:
+                <code>claude -c</code> (last), <code>claude -r "name"</code> (by
+                name).
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/resume</span>
+                <span class="highlight-claude">/resume</span> auth-refactor
+                <span class="comment"># From terminal:</span> claude -c claude
+                -r "auth-refactor"
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/rename</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Gives the current session a meaningful name. Without arguments,
+                auto-generates one from context. Makes sessions findable weeks
+                later.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/rename</span> auth-refactor-2026
+                <span class="highlight-claude">/rename</span>
+                <span class="comment"># auto-generate from context</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/fork</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Creates a branch of the current conversation. Explore one
+                approach, then /resume back to the fork point and try something
+                different. The conversational equivalent of a git branch.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/fork</span>
+                <span class="comment"># branch here, experiment safely</span>
+                <span class="comment"># If approach fails:</span>
+                <span class="highlight-claude">/resume</span>
+                <span class="comment"># back to fork point</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/rewind</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Rolls back conversation to a previous point. Selective rollback
+                lets you revert all file changes while keeping conversation
+                history. Alias: <code>/checkpoint</code>. Also triggered by
+                double-tap Esc.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/rewind</span>
+                <span class="highlight-claude">/checkpoint</span>
+                <span class="comment"
+                  ># Esc+Esc → choose "Rewind code only"</span
+                >
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/export</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Exports the current conversation as plain text. Useful for
+                documentation, post-mortems, or sharing a session's output with
+                a teammate.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/export</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/insights</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Reads your past month of usage and compiles a detailed HTML
+                report covering usage patterns, costs, tool usage, and session
+                history. Run monthly to improve your workflow.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/insights</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/security-review</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Analyzes changes on your current git branch specifically for
+                security vulnerabilities. Scoped and targeted — run before any
+                PR touching authentication, authorization, or data handling.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/security-review</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/simplify</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Runs a three-agent review pipeline checking for architectural
+                issues, duplicate logic, and performance inefficiencies. Use as
+                a quality gate before PRs, not during active development.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/simplify</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/batch</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Runs large-scale changes across multiple files in parallel using
+                isolated git worktrees, then automatically creates pull
+                requests. Great for applying a pattern change across 50+ files.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/batch</span> rename all
+                occurrences of UserID to user_id across src/
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/btw</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Asks a side question without it becoming part of the main
+                conversation thread. Claude answers, then the thread continues
+                from where it was. Keeps context clean during deep debugging.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/btw</span> what's the difference
+                between PUT and PATCH?
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/memory</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-config">config</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Opens the <code>CLAUDE.md</code> editing interface for adding,
+                updating, or removing project rules. Invest 10 minutes after
+                setup — pays back in every subsequent session.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/memory</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/hooks</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-config">config</span
+                  ><span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Manages automation that triggers on tool events: before file
+                edits, after bash commands, on session start. Hooks guarantee
+                execution (unlike prompts). Essential for enforcing linting,
+                formatting, CI rules.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/hooks</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/permissions</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-config">config</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Controls which tools Claude can use and what file paths are
+                permitted. Essential for CI/CD pipelines and security-sensitive
+                environments where you need to restrict the blast radius.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/permissions</span>
+                <span class="highlight-claude">/allowed-tools</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/agents</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Manages subagent configurations — specialized Claude instances
+                with their own context windows, personas, and tool access.
+                Delegate complex tasks (code review, debugging, architecture) to
+                focused subagents.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/agents</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/remote-control</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Enables remote control of your local Claude Code session from
+                <code>claude.ai</code>. Alias: <code>/rc</code>. Monitor
+                long-running tasks, send instructions, and review results from
+                any device. Requires Claude Max.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/remote-control</span>
+                <span class="highlight-claude">/rc</span>
+                <span class="comment"># shorthand</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/terminal-setup</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-config">config</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Configures your terminal for full keyboard shortcut support. Run
+                this once after installation to activate Alt+T (extended
+                thinking toggle) and other keyboard shortcuts.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/terminal-setup</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">/extra-usage</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-perf">perf</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Configure what happens when you hit your rate limit. Useful for
+                Pro/Max subscribers who need to manage usage carefully near the
+                end of their billing cycle.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">/extra-usage</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CLI FLAGS -->
+        <div class="sub-panel" id="sub-claude-cli">
+          <div class="section-header">
+            <div class="section-icon si-claude">🚩</div>
+            <div>
+              <div class="section-title">CLI Flags</div>
+              <div class="section-desc">
+                Flags passed when launching Claude Code from the terminal
+              </div>
+            </div>
+          </div>
+
+          <div class="cmd-grid">
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">--print / -p</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Sends a query and exits without starting an interactive session.
+                The gateway to scripting. Pair with
+                <code>--output-format json</code> for machine-readable output in
+                CI/CD pipelines.
+              </div>
+              <div class="cmd-example">
+                claude <span class="highlight-claude">-p</span> "Explain this
+                repository" > overview.txt claude
+                <span class="highlight-claude">--print</span> "summarize
+                changes"
+                <span class="highlight-claude">--output-format</span> json
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">--output-format</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Controls output format when using print mode. Options:
+                <code>text</code> (default),
+                <code>json</code> (machine-readable),
+                <code>stream-json</code> (streaming JSON). Essential for
+                scripting and automation.
+              </div>
+              <div class="cmd-example">
+                claude -p "review code"
+                <span class="highlight-claude">--output-format</span> json
+                claude -p "analyze"
+                <span class="highlight-claude">--output-format</span>
+                stream-json
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">--resume / -c</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Resume the most recent session (<code>-c</code>) or resume by
+                session name (<code>-r "name"</code>). Never lose context when
+                switching tasks.
+              </div>
+              <div class="cmd-example">
+                claude <span class="highlight-claude">-c</span>
+                <span class="comment"># resume last session</span> claude
+                <span class="highlight-claude">-r</span> "auth-refactor"
+                <span class="comment"># resume by name</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">--allowedTools</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Limits which tools Claude can use in a session. For automated
+                analysis where you want read-only behavior. Multiple tools can
+                be specified space-separated.
+              </div>
+              <div class="cmd-example">
+                claude -p
+                <span class="highlight-claude">--allowedTools</span> "Read"
+                "Grep" "Glob" \ "Find issues in this codebase"
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">--max-turns</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span
+                  ><span class="cmd-tag tag-perf">perf</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Caps the number of agentic turns before stopping. A circuit
+                breaker for automated pipelines where runaway execution would be
+                costly. Essential for CI/CD.
+              </div>
+              <div class="cmd-example">
+                claude -p "fix all lint errors"
+                <span class="highlight-claude">--max-turns</span> 10
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">--worktree / -w</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Creates an isolated git worktree and starts a session inside it.
+                Changes are isolated from your main branch. Worktrees are
+                auto-cleaned if no changes are made. Used internally by
+                <code>/batch</code>.
+              </div>
+              <div class="cmd-example">
+                claude <span class="highlight-claude">--worktree</span> claude
+                <span class="highlight-claude">-w</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude"
+                  >--dangerously-skip-permissions</span
+                >
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                YOLO mode (v2.0.68+). Fully autonomous operation — skips all
+                permission prompts. Use only in isolated/sandboxed environments.
+                Never on production systems.
+              </div>
+              <div class="cmd-example">
+                claude
+                <span class="highlight-claude"
+                  >--dangerously-skip-permissions</span
+                >
+                \ "refactor all component files"
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">--system-prompt</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-config">config</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Override the system prompt entirely. Mutually exclusive with
+                <code>--system-prompt-file</code>. Use
+                <code>--append-system-prompt</code> to add to existing prompt
+                instead of replacing it.
+              </div>
+              <div class="cmd-example">
+                claude
+                <span class="highlight-claude">--system-prompt</span> "You are a
+                security-focused code reviewer" claude
+                <span class="highlight-claude">--append-system-prompt</span>
+                "Always suggest tests" claude
+                <span class="highlight-claude">--system-prompt-file</span>
+                ./prompts/reviewer.txt
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">--agents</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Defines custom subagents inline at launch without requiring
+                configuration files. Useful for CI/CD pipelines where you want
+                to define agent behavior in the pipeline config itself.
+              </div>
+              <div class="cmd-example">
+                claude
+                <span class="highlight-claude">--agents</span>
+                reviewer:./agents/reviewer.md
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">--verbose / --debug</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-config">config</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Enable verbose logging and debug output. Useful for
+                troubleshooting authentication issues, tool execution failures,
+                or unexpected behavior.
+              </div>
+              <div class="cmd-example">
+                claude <span class="highlight-claude">--verbose</span> claude
+                <span class="highlight-claude">--verbose --debug</span> claude
+                "test" <span class="highlight-claude">--verbose</span>
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">--teleport</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Pulls a remote Claude Code session (from claude.ai/code) to your
+                local terminal. Get full conversation history, modified files,
+                and continue the interaction locally. Requires Claude Max.
+              </div>
+              <div class="cmd-example">
+                claude
+                <span class="highlight-claude">--teleport</span>
+                session-id-from-web
+              </div>
+            </div>
+
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">--vscode</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-config">config</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Open Claude Code integrated with VS Code. Enables the IDE
+                integration features including inline diffs, file navigation,
+                and the Claude Code extension panel.
+              </div>
+              <div class="cmd-example">
+                claude <span class="highlight-claude">--vscode</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KEYBOARD -->
+        <div class="sub-panel" id="sub-claude-keyboard">
+          <div class="section-header">
+            <div class="section-icon si-claude">⌨️</div>
+            <div>
+              <div class="section-title">Keyboard Shortcuts</div>
+              <div class="section-desc">
+                Interactive mode shortcuts — memorize these for maximum speed
+              </div>
+            </div>
+          </div>
+
+          <div class="kbd-grid">
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Cycle through Normal / Auto-Accept / Plan modes</span
+              >
+              <div class="kbd-keys">
+                <kbd>Shift</kbd><span class="kbd-plus">+</span><kbd>Tab</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Toggle extended thinking (deep reasoning) for next turn</span
+              >
+              <div class="kbd-keys">
+                <kbd>Alt</kbd><span class="kbd-plus">+</span><kbd>T</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Switch active model (preserves typed input)</span
+              >
+              <div class="kbd-keys">
+                <kbd>Alt</kbd><span class="kbd-plus">+</span><kbd>P</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Open rewind menu (selective code or conversation
+                rollback)</span
+              >
+              <div class="kbd-keys">
+                <kbd>Esc</kbd><span class="kbd-plus">+</span><kbd>Esc</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Run a shell command directly (bypasses Claude
+                interpretation)</span
+              >
+              <div class="kbd-keys">
+                <kbd>!</kbd><span class="kbd-plus">+</span><kbd>cmd</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >File path autocomplete / reference a file in context</span
+              >
+              <div class="kbd-keys">
+                <kbd>@</kbd><span class="kbd-plus">+</span><kbd>path</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Cancel current operation</span>
+              <div class="kbd-keys"><kbd>Esc</kbd></div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Exit session (press twice)</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>C</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Exit session (Unix-style)</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>D</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Insert line break in prompt (multiline input)</span
+              >
+              <div class="kbd-keys">
+                <kbd>Shift</kbd><span class="kbd-plus">+</span><kbd>Enter</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Submit multiline prompt</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>Enter</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Search command history (reverse incremental)</span
+              >
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>R</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Scroll output (alt-screen mode)</span>
+              <div class="kbd-keys">
+                <kbd>PgUp</kbd><span class="kbd-plus">/</span><kbd>PgDn</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Move cursor to beginning of line</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>A</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Delete from cursor to end of line</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>K</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Delete from cursor to beginning of line</span
+              >
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>U</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Delete word before cursor</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>W</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Move cursor by word left / right</span>
+              <div class="kbd-keys">
+                <kbd>Alt</kbd><span class="kbd-plus">+</span><kbd>←/→</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Navigate previous / next command in history</span
+              >
+              <div class="kbd-keys">
+                <kbd>↑</kbd><span class="kbd-plus">/</span><kbd>↓</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Clear screen</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>L</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Suspend / resume (Unix platforms)</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>Z</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Jump to top / bottom of scroll buffer</span
+              >
+              <div class="kbd-keys">
+                <kbd>Home</kbd><span class="kbd-plus">/</span><kbd>End</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Page down / up in scrollable views</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>F/B</kbd>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SESSION MANAGEMENT -->
+        <div class="sub-panel" id="sub-claude-session">
+          <div class="section-header">
+            <div class="section-icon si-claude">🔄</div>
+            <div>
+              <div class="section-title">Session Management</div>
+              <div class="section-desc">
+                Manage long-running work across multiple tasks
+              </div>
+            </div>
+          </div>
+
+          <div class="cmd-grid">
+            <div class="cmd-card green-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-green">Session Health Check</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">daily habit</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Run these regularly during long sessions to stay on top of
+                costs, context usage, and rate limits before they become
+                problems.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-green">/cost</span>
+                <span class="comment"># API users: spending</span>
+                <span class="highlight-green">/stats</span>
+                <span class="comment"># Pro/Max: usage</span>
+                <span class="highlight-green">/context</span>
+                <span class="comment"># context window fullness</span>
+                <span class="highlight-green">/usage</span>
+                <span class="comment"># rate limit proximity</span>
+              </div>
+            </div>
+
+            <div class="cmd-card green-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-green">Remote Sessions</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">Max only</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Start a session on Anthropic's cloud infrastructure, work on it
+                asynchronously, then teleport it back locally. Visible at
+                <code>claude.ai/code</code>.
+              </div>
+              <div class="cmd-example">
+                <span class="comment"
+                  ># Start task and prefix with &amp; for background</span
+                >
+                <span class="highlight-green">/remote-control</span>
+                <span class="comment"># start remote session</span>
+                <span class="comment"># Check progress at claude.ai/code</span>
+                claude
+                <span class="highlight-green">--teleport</span> session-id
+                <span class="comment"># pull locally</span>
+              </div>
+            </div>
+
+            <div class="cmd-card green-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-green">Context Management</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-perf">perf</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Strategy for managing context across long sessions. Compact when
+                context &gt;80%, clear at task boundaries, fork before risky
+                experiments.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-green">/compact</span>
+                <span class="comment"># at 80%+ context usage</span>
+                <span class="highlight-green">/clear</span>
+                <span class="comment"># at task boundaries</span>
+                <span class="highlight-green">/fork</span>
+                <span class="comment"># before risky experiments</span>
+                <span class="highlight-green">/rewind</span>
+                <span class="comment"># if experiment fails</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONFIGURATION -->
+        <div class="sub-panel" id="sub-claude-config">
+          <div class="section-header">
+            <div class="section-icon si-claude">⚙️</div>
+            <div>
+              <div class="section-title">Configuration Files</div>
+              <div class="section-desc">
+                Persistent project context and customization
+              </div>
+            </div>
+          </div>
+
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>File / Location</th>
+                <th>Scope</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color: var(--claude-sec)">CLAUDE.md</td>
+                <td>Project root</td>
+                <td>
+                  Project-specific rules, conventions, stack info, coding
+                  standards. Generated by /init and edited via /memory. Applied
+                  to every session in that project.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--claude-sec)">~/.claude/CLAUDE.md</td>
+                <td>Global</td>
+                <td>
+                  Personal preferences applied across all projects. Coding
+                  style, communication preferences, global rules.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--claude-sec)">.claude/settings.json</td>
+                <td>Project</td>
+                <td>
+                  Tool permissions, model choices, allowed file paths, and other
+                  session defaults.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--claude-sec)">
+                  ~/.claude/settings.json
+                </td>
+                <td>Global</td>
+                <td>Global user settings and preferences.</td>
+              </tr>
+              <tr>
+                <td style="color: var(--claude-sec)">.claude/commands/</td>
+                <td>Project</td>
+                <td>
+                  Custom slash commands defined in Markdown files. Shortcut
+                  prompts for common tasks. Now superseded by skills system but
+                  still supported.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--claude-sec)">.claude/skills/</td>
+                <td>Project</td>
+                <td>
+                  Skills system (new). Each skill in its own directory with
+                  SKILL.md. Supports sub-agents, forked contexts, and supporting
+                  files.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--claude-sec)">.claude/agents/</td>
+                <td>Project</td>
+                <td>
+                  Custom subagent definitions. Specialized Claude instances with
+                  their own personas, tools, and context windows.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- IDE INTEGRATION -->
+        <div class="sub-panel" id="sub-claude-ide">
+          <div class="section-header">
+            <div class="section-icon si-claude">🖥️</div>
+            <div>
+              <div class="section-title">IDE Integration</div>
+              <div class="section-desc">
+                Claude Code in VS Code and other editors
+              </div>
+            </div>
+          </div>
+
+          <div class="cmd-grid">
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">VS Code Install</span>
+              </div>
+              <div class="cmd-usage">
+                Install the official Claude Code extension for VS Code.
+              </div>
+              <div class="cmd-example">
+                code
+                <span class="highlight-claude">--install-extension</span>
+                anthropic.claude-code
+              </div>
+            </div>
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">VS Code Commands</span>
+              </div>
+              <div class="cmd-usage">
+                Trigger Claude actions from VS Code Command Palette.
+              </div>
+              <div class="cmd-example">
+                Ctrl+Shift+P →
+                <span class="highlight-claude">"Claude: Ask"</span> Ctrl+Shift+P
+                →
+                <span class="highlight-claude">"Claude: Review"</span>
+                Ctrl+Shift+P →
+                <span class="highlight-claude">"Claude: Explain"</span>
+              </div>
+            </div>
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">Config: Editor</span>
+              </div>
+              <div class="cmd-usage">
+                Set your default editor and working directory preferences.
+              </div>
+              <div class="cmd-example">
+                claude config set editor code claude config set workdir
+                /path/to/project claude config list
+              </div>
+            </div>
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">File Reference @</span>
+              </div>
+              <div class="cmd-usage">
+                Reference specific files directly in your prompt. Faster than
+                describing a file location.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">@src/components/Button.tsx</span>
+                fix accessibility
+                <span class="highlight-claude">@./tests/auth.test.ts</span>
+                explain the failing test
+              </div>
+            </div>
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">Shell Commands !</span>
+              </div>
+              <div class="cmd-usage">
+                Run shell commands directly from Claude prompt. Bypasses
+                Claude's conversational mode — uses fewer tokens for the same
+                result.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-claude">!npm test</span>
+                <span class="highlight-claude">!git status</span>
+                <span class="highlight-claude">!ls src/components/</span>
+              </div>
+            </div>
+            <div class="cmd-card claude-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-claude">LSP Integration</span>
+              </div>
+              <div class="cmd-usage">
+                IDE-like code intelligence (v2.0.74+). Go-to-definition, find
+                references, hover docs. Works with TypeScript, Python, Go, Rust
+                and more.
+              </div>
+              <div class="cmd-example">
+                <span class="comment"
+                  ># LSP available for TS, Python, Go, Rust</span
+                >
+                <span class="comment"
+                  ># Requires language server in toolchain</span
+                >
+                <span class="comment"
+                  ># Auto-enabled when language server found</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end claude panel -->
+
+      <!-- ════════════════ GITHUB COPILOT ════════════════ -->
+      <div class="tab-panel copilot-panel" id="panel-copilot">
+        <div class="sub-tabs">
+          <button class="sub-tab active" data-sub="cop-install">
+            Installation
+          </button>
+          <button class="sub-tab" data-sub="cop-slash">Slash Commands</button>
+          <button class="sub-tab" data-sub="cop-cli">CLI Flags</button>
+          <button class="sub-tab" data-sub="cop-keyboard">
+            Keyboard Shortcuts
+          </button>
+          <button class="sub-tab" data-sub="cop-config">Configuration</button>
+          <button class="sub-tab" data-sub="cop-ide">IDE Commands</button>
+        </div>
+
+        <!-- INSTALL -->
+        <div class="sub-panel active" id="sub-cop-install">
+          <div class="section-header">
+            <div class="section-icon si-cop">📦</div>
+            <div>
+              <div class="section-title">Installation &amp; Setup</div>
+              <div class="section-desc">
+                GitHub Copilot CLI — GA as of February 2026, available on all
+                Copilot plans
+              </div>
+            </div>
+          </div>
+
+          <div class="install-grid">
+            <div class="install-card">
+              <div class="install-icon">📦</div>
+              <div class="install-info">
+                <div class="install-label">npm (cross-platform)</div>
+                <div class="install-cmd">npm install -g @github/copilot</div>
+              </div>
+            </div>
+            <div class="install-card">
+              <div class="install-icon">🍺</div>
+              <div class="install-info">
+                <div class="install-label">Homebrew (macOS/Linux)</div>
+                <div class="install-cmd">brew install copilot-cli</div>
+              </div>
+            </div>
+            <div class="install-card">
+              <div class="install-icon">🪟</div>
+              <div class="install-info">
+                <div class="install-label">WinGet (Windows)</div>
+                <div class="install-cmd">winget install GitHub.Copilot</div>
+              </div>
+            </div>
+            <div class="install-card">
+              <div class="install-icon">📜</div>
+              <div class="install-info">
+                <div class="install-label">Shell Script (macOS/Linux)</div>
+                <div class="install-cmd">
+                  curl -fsSL https://gh.io/copilot-install | bash
+                </div>
+              </div>
+            </div>
+            <div class="install-card">
+              <div class="install-icon">🔑</div>
+              <div class="install-info">
+                <div class="install-label">Login / Authenticate</div>
+                <div class="install-cmd">copilot /login</div>
+              </div>
+            </div>
+            <div class="install-card">
+              <div class="install-icon">🚀</div>
+              <div class="install-info">
+                <div class="install-label">Start Interactive Session</div>
+                <div class="install-cmd">copilot</div>
+              </div>
+            </div>
+            <div class="install-card">
+              <div class="install-icon">💬</div>
+              <div class="install-info">
+                <div class="install-label">One-shot Prompt</div>
+                <div class="install-cmd">copilot -p "your prompt"</div>
+              </div>
+            </div>
+            <div class="install-card">
+              <div class="install-icon">❓</div>
+              <div class="install-info">
+                <div class="install-label">Help &amp; All Options</div>
+                <div class="install-cmd">copilot help</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <div class="info-icon">💡</div>
+            <div class="info-content">
+              <div class="info-title">Plans &amp; Availability</div>
+              <div class="info-text">
+                Available on all Copilot plans: Free, Pro, Pro+, Business, and
+                Enterprise. CLI access is included in your subscription with no
+                extra cost. Premium requests are consumed per interaction.
+                Organization admins must enable Copilot CLI in settings for
+                Business/Enterprise users.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLASH COMMANDS -->
+        <div class="sub-panel" id="sub-cop-slash">
+          <div class="section-header">
+            <div class="section-icon si-cop">⚡</div>
+            <div>
+              <div class="section-title">Slash Commands</div>
+              <div class="section-desc">
+                In-session commands — type /help in Copilot CLI for the full
+                list
+              </div>
+            </div>
+          </div>
+
+          <div class="cmd-grid">
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/help</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Shows all available slash commands including skills from your
+                <code>.github/skills/</code> and custom agents. The canonical
+                reference for what's available.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/help</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/init</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span
+                  ><span class="cmd-tag tag-config">config</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Initializes Copilot instructions for the repo, creating
+                <code>.github/copilot-instructions.md</code>. Sets up
+                persistent, repo-wide guidance loaded at every session start.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/init</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/plan</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Triggers plan mode. Copilot analyzes your request, asks
+                clarifying questions to understand scope, and builds a
+                structured implementation plan before writing any code.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/plan</span> refactor the
+                authentication module to use JWT
+                <span class="comment"># Also triggered by Shift+Tab</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/model</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span
+                  ><span class="cmd-tag tag-perf">perf</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Select AI model. Available models include Claude Opus 4.6,
+                Claude Sonnet 4.6 (default), GPT-5.3-Codex, GPT-4.1 (free),
+                GPT-5 mini (free), and Gemini 3 Pro.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/model</span>
+                <span class="highlight-cop">/model</span> claude-sonnet
+                <span class="comment"># balanced</span>
+                <span class="highlight-cop">/model</span> claude-opus
+                <span class="comment"># most capable</span>
+                <span class="highlight-cop">/model</span> gpt-4.1
+                <span class="comment"># free, no premium cost</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/compact</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span
+                  ><span class="cmd-tag tag-perf">perf</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Manually compress context to free token space. Copilot also
+                auto-compacts at 95% context usage in the background, enabling
+                virtually infinite sessions.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/compact</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/clear</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Reset context completely. Starts a fresh session. Use at task
+                boundaries to keep interactions focused and prevent context
+                bleed between unrelated tasks.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/clear</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/review</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Run the code review agent on current changes. The built-in
+                code-review subagent analyzes your diff for quality, security
+                issues, and best practice violations.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/review</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/delegate</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Push work to the Copilot coding agent in the cloud (GitHub
+                Actions). Creates a PR asynchronously. Use for longer tasks you
+                want to offload while continuing other work.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/delegate</span> implement the user
+                settings page based on the design doc
+                <span class="comment"
+                  ># Also: prefix any prompt with &amp;</span
+                >
+                &amp; add unit tests for the payment module
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/fleet</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Parallel subagent execution — run the same task across multiple
+                models simultaneously, or delegate multiple subtasks to
+                specialized subagents running in parallel.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/fleet</span> run tests across all
+                feature branches
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/research</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Deep research with web and GitHub sources. Delegates to the
+                research subagent for thorough investigation. Useful for
+                exploring unfamiliar libraries, APIs, or architectural patterns.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/research</span> best practices for
+                database connection pooling in Node.js
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/diff</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Review all changes in the current directory. Shows what Copilot
+                has modified so far in the session. Always run before
+                committing.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/diff</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/pr</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Create PRs, fix CI failures, address review feedback, and
+                resolve merge conflicts — all from the CLI. Connects to your
+                GitHub repos via the built-in GitHub MCP server.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/pr</span> create
+                <span class="comment"># open a PR for current branch</span>
+                <span class="highlight-cop">/pr</span> fix-ci
+                <span class="comment"># fix failing CI checks</span>
+                <span class="highlight-cop">/pr</span> resolve
+                <span class="comment"># address review feedback</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/resume</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Switch between local and remote coding agent sessions. Resume a
+                background task started with <code>&amp;</code> prefix or a
+                cloud session. Also accessible via Tab key.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/resume</span>
+                <span class="comment"
+                  ># Also: press Tab to resume sessions</span
+                >
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/share</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Export or share conversation. <code>/share</code> saves locally;
+                <code>/share gist</code> creates a GitHub Gist. Exports include
+                timestamp, model used, token usage, and full conversation
+                history.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/share</span>
+                <span class="comment"># save locally</span>
+                <span class="highlight-cop">/share gist</span>
+                <span class="comment"># create GitHub Gist</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/mcp</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span
+                  ><span class="cmd-tag tag-config">config</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Manage MCP (Model Context Protocol) servers. Add, edit, enable,
+                disable, or reload MCP servers for external tool integrations —
+                databases, APIs, calendars, ticketing systems.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/mcp add</span>
+                <span class="comment"># add a new MCP server</span>
+                <span class="highlight-cop">/mcp list</span>
+                <span class="comment"># list configured servers</span>
+                <span class="highlight-cop">/mcp reload</span>
+                <span class="comment"># reload server configs</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/agent</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Browse and select custom agents. Copilot auto-delegates to
+                built-in agents (explore, task, code-review, research) and
+                custom agents defined in <code>.github/agents/</code>.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/agent</span>
+                <span class="comment"># browse agents</span>
+                <span class="highlight-cop">/agent</span> list
+                <span class="comment"># list available agents</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/skills</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-config">config</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                List, enable, disable, add, or remove skills. Skills are
+                Markdown-based workflow templates that extend what the CLI can
+                do. Invoke directly with <code>/skill-name</code>.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/skills</span> list
+                <span class="highlight-cop">/skills</span> add owner/repo
+                <span class="highlight-cop">/skill-name</span>
+                <span class="comment"># invoke a skill directly</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/plugin</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Install, update, list, or remove plugins. Plugins bundle agents
+                + skills + hooks + MCP configs. Install from GitHub repos or
+                registered marketplaces.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/plugin install</span> owner/repo
+                <span class="highlight-cop">/plugin list</span>
+                <span class="highlight-cop">/plugin update</span> plugin-name
+                <span class="highlight-cop">/plugin uninstall</span> plugin-name
+                <span class="highlight-cop">/plugin marketplace add</span>
+                org/repo
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/lsp</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-config">config</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Manage Language Server Protocol servers. Provides
+                go-to-definition, hover info, and diagnostics per language.
+                Configure per language in
+                <code>~/.copilot/lsp-config.json</code>.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/lsp</span> list
+                <span class="highlight-cop">/lsp</span> add typescript
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/experimental</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-new">new</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Enable or disable experimental features. Persists the setting in
+                your config so you don't need the
+                <code>--experimental</code> flag on subsequent launches.
+                Automatically restarts the CLI.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/experimental on</span>
+                <span class="highlight-cop">/experimental off</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/changelog</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-new">new</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                View the latest Copilot CLI updates and new features. Useful for
+                staying current with fast-moving releases.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/changelog</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">/feedback</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-new">new</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Submit feedback to GitHub about Copilot CLI. Prompts you to
+                choose a feedback type and provide details.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/feedback</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CLI FLAGS -->
+        <div class="sub-panel" id="sub-cop-cli">
+          <div class="section-header">
+            <div class="section-icon si-cop">🚩</div>
+            <div>
+              <div class="section-title">CLI Flags</div>
+              <div class="section-desc">
+                Flags for launching and scripting Copilot CLI
+              </div>
+            </div>
+          </div>
+
+          <div class="cmd-grid">
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">--prompt / -p</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Send a single prompt and exit (programmatic mode). Essential for
+                scripting and CI/CD pipelines. Combine with approval flags to
+                allow file modifications.
+              </div>
+              <div class="cmd-example">
+                copilot <span class="highlight-cop">-p</span> "summarize changes
+                in this PR" copilot
+                <span class="highlight-cop">--prompt</span> "fix lint errors"
+                --allow-all-tools
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">--allow-all-tools</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Allow all tools without manual approval in programmatic mode.
+                Grants Copilot the same file and shell access you have. Use with
+                caution; only in trusted environments.
+              </div>
+              <div class="cmd-example">
+                copilot -p "update dependencies"
+                <span class="highlight-cop">--allow-all-tools</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">--allow-tool / --deny-tool</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Fine-grained tool permission control. Accept patterns in format
+                <code>Kind(argument)</code>. Deny rules always take precedence
+                over allow rules, even when --allow-all is set.
+              </div>
+              <div class="cmd-example">
+                copilot
+                <span class="highlight-cop">--allow-tool</span>='shell(git:*)' \
+                <span class="highlight-cop">--deny-tool</span>='shell(git push)'
+                <span class="comment"
+                  ># Allow git read, block destructive push</span
+                >
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">--experimental</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-new">new</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Launch with experimental features enabled. Once set via
+                <code>/experimental on</code> in a session, the flag is no
+                longer needed on subsequent launches.
+              </div>
+              <div class="cmd-example">
+                copilot <span class="highlight-cop">--experimental</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">--acp</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Start as an Agent Client Protocol (ACP) server. Allows
+                third-party tools, IDEs, and automation systems to interact with
+                Copilot's agentic capabilities via the open ACP standard.
+              </div>
+              <div class="cmd-example">
+                copilot <span class="highlight-cop">--acp</span> copilot
+                <span class="highlight-cop">--acp --port</span> 3000
+                <span class="comment"># TCP mode</span>
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">--additional-mcp-config</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-config">config</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Add MCP servers for a single session without modifying
+                persistent config. Useful for session-specific integrations or
+                testing new MCP server configurations.
+              </div>
+              <div class="cmd-example">
+                copilot
+                <span class="highlight-cop">--additional-mcp-config</span>
+                ./mcp-test.json
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">--disable-builtin-mcps</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-config">config</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Disable all built-in MCP servers. Use
+                <code>--disable-mcp-server SERVER-NAME</code> to disable a
+                specific one. Useful for controlled/sandboxed environments.
+              </div>
+              <div class="cmd-example">
+                copilot
+                <span class="highlight-cop">--disable-builtin-mcps</span>
+                copilot
+                <span class="highlight-cop">--disable-mcp-server</span> github
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">--plugin-dir</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-config">config</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Specify a custom directory for loading plugins. Useful for
+                development or testing custom plugins before publishing to a
+                marketplace.
+              </div>
+              <div class="cmd-example">
+                copilot
+                <span class="highlight-cop">--plugin-dir</span> ./my-plugins
+              </div>
+            </div>
+
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">--share / --share-gist</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-advanced">advanced</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Export session on completion. <code>--share</code> saves
+                locally, <code>--share-gist</code> creates a GitHub Gist.
+                Includes timestamp, model, token usage, and full conversation.
+              </div>
+              <div class="cmd-example">
+                copilot -p "analyze codebase"
+                <span class="highlight-cop">--share</span> copilot -p "review
+                PR" <span class="highlight-cop">--share-gist</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KEYBOARD -->
+        <div class="sub-panel" id="sub-cop-keyboard">
+          <div class="section-header">
+            <div class="section-icon si-cop">⌨️</div>
+            <div>
+              <div class="section-title">Keyboard Shortcuts</div>
+              <div class="section-desc">
+                Interactive mode shortcuts for Copilot CLI
+              </div>
+            </div>
+          </div>
+
+          <div class="kbd-grid">
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Cycle modes: Interactive → Plan → Autopilot</span
+              >
+              <div class="kbd-keys">
+                <kbd>Shift</kbd><span class="kbd-plus">+</span><kbd>Tab</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Run command while preserving input</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>S</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Toggle reasoning display</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>T</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Expand recent timeline</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>O</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Expand all timeline items</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>E</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Edit prompt in external editor</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>G</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Clear screen</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>L</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Cancel current operation</span>
+              <div class="kbd-keys"><kbd>Esc</kbd></div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Navigate command history</span>
+              <div class="kbd-keys">
+                <kbd>↑</kbd><span class="kbd-plus">/</span><kbd>↓</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Search command history (reverse)</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>R</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Suspend / resume (Unix)</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>Z</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Rewind file changes to any previous snapshot</span
+              >
+              <div class="kbd-keys">
+                <kbd>Esc</kbd><span class="kbd-plus">+</span><kbd>Esc</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Resume local &amp; remote coding agent sessions</span
+              >
+              <div class="kbd-keys"><kbd>Tab</kbd></div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Exit session (press twice)</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>C</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Exit session (Unix-style)</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>D</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Insert line break in prompt</span>
+              <div class="kbd-keys">
+                <kbd>Shift</kbd><span class="kbd-plus">+</span><kbd>Enter</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Submit multiline prompt</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>Enter</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Move cursor to beginning of line</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>A</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Delete from cursor to end of line</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>K</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Delete from cursor to beginning of line</span
+              >
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>U</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Delete word before cursor</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>W</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Move cursor by word left / right</span>
+              <div class="kbd-keys">
+                <kbd>Alt</kbd><span class="kbd-plus">+</span><kbd>←/→</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Reference a file in context</span>
+              <div class="kbd-keys">
+                <kbd>@</kbd><span class="kbd-plus">+</span><kbd>path</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Reference GitHub issue / PR</span>
+              <div class="kbd-keys">
+                <kbd>#</kbd><span class="kbd-plus">+</span><kbd>issue</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Run shell command directly</span>
+              <div class="kbd-keys">
+                <kbd>!</kbd><span class="kbd-plus">+</span><kbd>cmd</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Delegate task to cloud agent</span>
+              <div class="kbd-keys">
+                <kbd>&amp;</kbd><span class="kbd-plus">+</span><kbd>prompt</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Scroll in alt-screen mode</span>
+              <div class="kbd-keys">
+                <kbd>PgUp</kbd><span class="kbd-plus">/</span><kbd>PgDn</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label">Page down / up in scrollable views</span>
+              <div class="kbd-keys">
+                <kbd>Ctrl</kbd><span class="kbd-plus">+</span><kbd>F/B</kbd>
+              </div>
+            </div>
+            <div class="kbd-row">
+              <span class="kbd-label"
+                >Jump to top / bottom of scroll buffer</span
+              >
+              <div class="kbd-keys">
+                <kbd>Home</kbd><span class="kbd-plus">/</span><kbd>End</kbd>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONFIGURATION -->
+        <div class="sub-panel" id="sub-cop-config">
+          <div class="section-header">
+            <div class="section-icon si-cop">⚙️</div>
+            <div>
+              <div class="section-title">Configuration Files</div>
+              <div class="section-desc">
+                Copilot CLI customization hierarchy — settings cascade from user
+                to repository to local
+              </div>
+            </div>
+          </div>
+
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>File / Location</th>
+                <th>Scope</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color: var(--cop-sec)">
+                  .github/copilot-instructions.md
+                </td>
+                <td>Repo-wide</td>
+                <td>
+                  Persistent guidance loaded at every session start. Coding
+                  standards, conventions, build commands, preferred patterns.
+                  Applied to every prompt automatically.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--cop-sec)">
+                  .github/instructions/**/*.instructions.md
+                </td>
+                <td>File-pattern</td>
+                <td>
+                  Path-based instructions with <code>applyTo</code> glob in YAML
+                  frontmatter. Target TypeScript files, test directories, API
+                  routes, etc. Combines with repo-wide instructions.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--cop-sec)">
+                  AGENTS.md / CLAUDE.md / GEMINI.md
+                </td>
+                <td>Repo root</td>
+                <td>
+                  Multi-agent instruction files at repo root. Root-level files
+                  are treated as primary instructions. Supports all major AI
+                  agents.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--cop-sec)">
+                  ~/.copilot/copilot-instructions.md
+                </td>
+                <td>Global (user)</td>
+                <td>
+                  Personal preferences across all repos. Coding style,
+                  communication preferences, tool choices. Also loaded via
+                  COPILOT_CUSTOM_INSTRUCTIONS_DIRS env var.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--cop-sec)">
+                  .github/skills/&lt;n&gt;/SKILL.md
+                </td>
+                <td>Project</td>
+                <td>
+                  Skills with YAML frontmatter (name + description). Invoked
+                  with /skill-name or auto-detected when relevant. Open standard
+                  (agentskills spec).
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--cop-sec)">
+                  ~/.copilot/mcp-config.json
+                </td>
+                <td>Global</td>
+                <td>
+                  Persistent MCP server configuration. GitHub MCP server is
+                  built-in. Add custom servers for DBs, APIs, calendars.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--cop-sec)">.github/hooks/*.json</td>
+                <td>Repository</td>
+                <td>
+                  Lifecycle hook configuration. Execute shell commands at
+                  sessionStart, sessionEnd, preToolUse, postToolUse,
+                  userPromptSubmitted, agentStop, errorOccurred.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--cop-sec)">.github/agents/</td>
+                <td>Repository</td>
+                <td>
+                  Custom agent definitions in Markdown with YAML frontmatter.
+                  Define role, allowed tools, MCP connections. Auto-delegated
+                  when <code>infer: true</code> is set.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--cop-sec)">~/.copilot/agents/</td>
+                <td>Global</td>
+                <td>
+                  User-level custom agent definitions used across all repos.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--cop-sec)">
+                  .github/copilot/settings.json
+                </td>
+                <td>Repository</td>
+                <td>
+                  Repository-level Copilot settings. Committed to the repo and
+                  shared with the team.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--cop-sec)">
+                  .github/copilot/settings.local.json
+                </td>
+                <td>Local override</td>
+                <td>
+                  Personal overrides for repository settings. Add to .gitignore
+                  — not committed. Same schema as settings.json but takes
+                  precedence.
+                </td>
+              </tr>
+              <tr>
+                <td style="color: var(--cop-sec)">
+                  ~/.copilot/lsp-config.json
+                </td>
+                <td>Global</td>
+                <td>
+                  Language Server Protocol configuration per language. Enables
+                  go-to-definition, hover info, diagnostics.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- IDE INTEGRATION -->
+        <div class="sub-panel" id="sub-cop-ide">
+          <div class="section-header">
+            <div class="section-icon si-cop">🖥️</div>
+            <div>
+              <div class="section-title">IDE Commands &amp; Shortcuts</div>
+              <div class="section-desc">
+                GitHub Copilot in VS Code, JetBrains, and other IDEs
+              </div>
+            </div>
+          </div>
+
+          <div class="cmd-grid">
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">VS Code — Accept Suggestion</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">Accept the current inline suggestion.</div>
+              <div class="cmd-example">
+                <kbd style="font-size: 12px">Tab</kbd>
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop"
+                  >VS Code — Dismiss Suggestion</span
+                >
+              </div>
+              <div class="cmd-usage">
+                Dismiss the current inline suggestion.
+              </div>
+              <div class="cmd-example">
+                <kbd style="font-size: 12px">Esc</kbd>
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop"
+                  >VS Code — Next / Previous Suggestion</span
+                >
+              </div>
+              <div class="cmd-usage">
+                Cycle through multiple inline suggestions.
+              </div>
+              <div class="cmd-example">
+                <kbd style="font-size: 12px">Alt+]</kbd> /
+                <kbd style="font-size: 12px">Alt+[</kbd>
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">VS Code — Accept One Word</span>
+              </div>
+              <div class="cmd-usage">
+                Accept only the next word of the suggestion (not the full line).
+              </div>
+              <div class="cmd-example">
+                <kbd style="font-size: 12px">Ctrl+→</kbd> (macOS:
+                <kbd style="font-size: 12px">Cmd+→</kbd>)
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">VS Code — Open Copilot Chat</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Open the Copilot Chat panel in VS Code.
+              </div>
+              <div class="cmd-example">
+                <kbd style="font-size: 12px">Ctrl+Alt+I</kbd> (macOS:
+                <kbd style="font-size: 12px">Cmd+Opt+I</kbd>)
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">VS Code — Inline Chat</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Start an inline chat at the cursor position to ask questions or
+                request edits right in the editor.
+              </div>
+              <div class="cmd-example">
+                <kbd style="font-size: 12px">Ctrl+I</kbd> (macOS:
+                <kbd style="font-size: 12px">Cmd+I</kbd>)
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop"
+                  >VS Code — Open Suggestions Panel</span
+                >
+              </div>
+              <div class="cmd-usage">
+                Open the panel showing multiple suggestions side by side.
+              </div>
+              <div class="cmd-example">
+                <kbd style="font-size: 12px">Ctrl+Enter</kbd>
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">VS Code Chat — /explain</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Explain the selected code or a piece of code in the active file.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/explain</span> what does this
+                function do?
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">VS Code Chat — /fix</span>
+                <div class="cmd-tags">
+                  <span class="cmd-tag tag-essential">essential</span>
+                </div>
+              </div>
+              <div class="cmd-usage">
+                Propose a fix for the selected code or a bug in the active file.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/fix</span>
+                <span class="highlight-cop">/fix</span> the null pointer error
+                in this function
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">VS Code Chat — /tests</span>
+              </div>
+              <div class="cmd-usage">
+                Generate unit tests for the selected code or the active file.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/tests</span>
+                <span class="highlight-cop">/tests</span> using Jest and React
+                Testing Library
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">VS Code Chat — /doc</span>
+              </div>
+              <div class="cmd-usage">
+                Generate documentation comments for selected code.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/doc</span>
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">VS Code Chat — /new</span>
+              </div>
+              <div class="cmd-usage">
+                Scaffold a new file or project from a description. Copilot
+                creates the file structure and boilerplate.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/new</span> React component with
+                TypeScript for a user profile card
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">VS Code Chat — /newNotebook</span>
+              </div>
+              <div class="cmd-usage">
+                Create a new Jupyter notebook based on a description.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">/newNotebook</span> data analysis
+                pipeline for CSV data
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">VS Code Chat — @workspace</span>
+              </div>
+              <div class="cmd-usage">
+                Ask questions about your entire workspace or codebase. Copilot
+                indexes the repo for context-aware answers about your specific
+                project.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">@workspace</span> where is user
+                authentication handled?
+                <span class="highlight-cop">@workspace</span> how do we handle
+                database migrations?
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">VS Code Chat — @vscode</span>
+              </div>
+              <div class="cmd-usage">
+                Ask questions about VS Code features, settings, and commands.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">@vscode</span> how do I configure
+                multi-cursor editing?
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">VS Code Chat — @terminal</span>
+              </div>
+              <div class="cmd-usage">
+                Ask questions about terminal commands or get help with shell
+                operations.
+              </div>
+              <div class="cmd-example">
+                <span class="highlight-cop">@terminal</span> how do I find all
+                files modified in the last 24 hours?
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop"
+                  >JetBrains — Open Copilot Chat</span
+                >
+              </div>
+              <div class="cmd-usage">
+                Open Copilot Chat panel in JetBrains IDEs (IntelliJ, PyCharm,
+                WebStorm, etc.)
+              </div>
+              <div class="cmd-example">
+                Right-click →
+                <span class="highlight-cop">Copilot → Open Chat</span> Alt+C
+                (customizable)
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop"
+                  >JetBrains — Accept Suggestion</span
+                >
+              </div>
+              <div class="cmd-usage">
+                Accept inline suggestion in JetBrains IDEs.
+              </div>
+              <div class="cmd-example">
+                <kbd style="font-size: 12px">Tab</kbd>
+              </div>
+            </div>
+            <div class="cmd-card cop-card">
+              <div class="cmd-header">
+                <span class="cmd-name cn-cop">JetBrains — Next / Previous</span>
+              </div>
+              <div class="cmd-usage">
+                Cycle through suggestions in JetBrains IDEs.
+              </div>
+              <div class="cmd-example">
+                <kbd style="font-size: 12px">Alt+]</kbd> /
+                <kbd style="font-size: 12px">Alt+[</kbd>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end copilot panel -->
+
+      <!-- ════════════════ TOKEN OPTIMIZATION ════════════════ -->
+      <div class="tab-panel" id="panel-optimize">
+        <div class="section-header">
+          <div class="section-icon si-green">⚡</div>
+          <div>
+            <div class="section-title">
+              Token Optimization &amp; Cost Reduction
+            </div>
+            <div class="section-desc">
+              Practical strategies to maximize speed, minimize cost, and get
+              better results from both tools
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <div class="info-icon">📊</div>
+          <div class="info-content">
+            <div class="info-title">Cost Reality Check</div>
+            <div class="info-text">
+              A typical coding session with Claude Code consumes 50K–200K input
+              tokens and 10K–50K output tokens. With Haiku that's
+              $0.10–$0.45/session; with Opus the same session costs $0.50–$2.25
+              (5× more). With Copilot CLI, each interaction uses one premium
+              request from your monthly allowance. GPT-4.1 and GPT-5 mini are
+              free (no premium cost). Smart tool selection has a direct,
+              measurable impact on your bill.
+            </div>
+          </div>
+        </div>
+
+        <div class="tips-grid">
+          <div class="tip-card">
+            <div class="tip-header">
+              <div class="tip-num tn-green">1</div>
+              <div class="tip-title">Choose the Right Model for Each Task</div>
+            </div>
+            <div class="tip-body">
+              Don't use the most powerful model for every task. Use Haiku/Sonnet
+              for exploration and file reading. Reserve Opus for genuinely
+              complex problems. Switch back once the hard part is solved.
+            </div>
+            <div class="tip-code">
+              # Claude Code /model haiku # for simple file searches /model
+              sonnet # for most coding tasks /model opus # only for hard
+              problems # Copilot CLI /model gpt-4.1 # free, no premium cost
+              /model claude-sonnet # balanced, best value /model claude-opus #
+              complex architecture only
+            </div>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-header">
+              <div class="tip-num tn-green">2</div>
+              <div class="tip-title">Compact Before Context Overflows</div>
+            </div>
+            <div class="tip-body">
+              Don't wait for the "context is getting large" warning. Run
+              /compact proactively at 80% context usage with focus instructions.
+              Starting fresh after overflow wastes all accumulated context.
+            </div>
+            <div class="tip-code">
+              # Include focus instructions for better summary /compact Focus on
+              the auth module, ignore UI files # Claude Code: check context
+              level anytime /context # Copilot: auto-compacts at 95% in
+              background # Manual compact anytime: /compact
+            </div>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-header">
+              <div class="tip-num tn-green">3</div>
+              <div class="tip-title">Use ! for Direct Shell Commands</div>
+            </div>
+            <div class="tip-body">
+              Prefixing a command with <code>!</code> executes it directly,
+              bypassing Claude's conversational mode. Claude only sees the final
+              result, not a narrated description of what it's about to do. Fewer
+              tokens, faster results.
+            </div>
+            <div class="tip-code">
+              # SLOWER: Claude narrates the action run npm test to check the
+              current state # FASTER: Direct execution, just results !npm test
+              !git status !ls src/components/ | grep Button
+            </div>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-header">
+              <div class="tip-num tn-green">4</div>
+              <div class="tip-title">Reference Files Directly with @</div>
+            </div>
+            <div class="tip-body">
+              Using <code>@filename</code> puts the exact file contents in
+              context without Claude searching for it first. Eliminates several
+              tool-use turns and gives Claude precise scope. Copilot also
+              supports <code>#issue</code> for GitHub issues.
+            </div>
+            <div class="tip-code">
+              # SLOW: Claude searches for the file Fix the bug in the
+              authentication component # FAST: Direct file reference
+              @src/auth/LoginForm.tsx fix the form validation bug
+              @src/api/auth.ts explain the token refresh logic # Copilot: also
+              reference GitHub issues #123 implement the feature described here
+            </div>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-header">
+              <div class="tip-num tn-green">5</div>
+              <div class="tip-title">
+                Use CLAUDE.md / copilot-instructions.md
+              </div>
+            </div>
+            <div class="tip-body">
+              Invest time writing good project instructions once. Every prompt
+              you repeat (your stack, conventions, test framework) is wasted
+              tokens. Project memory means you never re-explain your codebase.
+            </div>
+            <div class="tip-code">
+              # Claude Code: generate and edit /init # auto-generate from
+              codebase /memory # edit instructions # Copilot: create manually
+              .github/copilot-instructions.md # Both: include in instructions -
+              Tech stack and versions - Coding conventions and patterns - Test
+              framework and how to run tests - Build commands - File naming
+              conventions
+            </div>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-header">
+              <div class="tip-num tn-green">6</div>
+              <div class="tip-title">Use Plan Mode Before Implementing</div>
+            </div>
+            <div class="tip-body">
+              Plan mode is read-only — no file writes, no token-burning failed
+              attempts. Get the plan right first. One good plan with your
+              feedback is worth 3 wrong implementations that each require
+              rollback and retry.
+            </div>
+            <div class="tip-code">
+              # Claude Code: plan before implementing /plan (or Shift+Tab) #
+              Copilot: explicitly request a plan /plan implement OAuth2 with
+              PKCE for mobile # Only after reviewing the plan: Shift+Tab → back
+              to normal mode "Looks good, proceed with step 1"
+            </div>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-header">
+              <div class="tip-num tn-green">7</div>
+              <div class="tip-title">Restrict Tools in Automated Pipelines</div>
+            </div>
+            <div class="tip-body">
+              In CI/CD, don't give the AI read-write-execute permissions when
+              you only need analysis. Read-only tool restrictions prevent
+              accidental state changes and make token usage predictable.
+            </div>
+            <div class="tip-code">
+              # Claude Code: read-only CI analysis claude -p "find security
+              issues" \ --allowedTools "Read" "Grep" "Glob" # Copilot: granular
+              shell restrictions copilot --allow-tool='shell(git:*)' \
+              --deny-tool='shell(git push)' \ --deny-tool='shell(rm:*)' # Set
+              max turns to prevent runaway loops claude -p "fix all bugs"
+              --max-turns 15
+            </div>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-header">
+              <div class="tip-num tn-green">8</div>
+              <div class="tip-title">
+                Use Subagents for Parallelism &amp; Focus
+              </div>
+            </div>
+            <div class="tip-body">
+              Complex tasks benefit from delegation. A "code-reviewer" subagent
+              paired with a "debugger" agent produces better results than one
+              generalist handling everything. Each subagent has its own focused
+              context window.
+            </div>
+            <div class="tip-code">
+              # Claude Code: define subagents # .claude/agents/reviewer.md ---
+              name: reviewer description: Use for code reviews model: sonnet ---
+              You focus only on security and performance. # Copilot: use fleet
+              for parallel tasks /fleet run the test suite while fixing the bug
+              # Delegate long tasks to cloud agent &amp; implement the full
+              settings page
+            </div>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-header">
+              <div class="tip-num tn-green">9</div>
+              <div class="tip-title">Monitor Costs in Real Time</div>
+            </div>
+            <div class="tip-body">
+              A single agentic loop can burn through tokens faster than you'd
+              expect. Build habits around checking usage. Know when a task is
+              becoming expensive before it's too late to switch strategy.
+            </div>
+            <div class="tip-code">
+              # Claude Code: session health check /cost # API users: current
+              spend /stats # Pro/Max: usage summary /context # how full is
+              context window? /usage # near rate limit? # If costs climbing:
+              /compact # compress context /model sonnet # switch to cheaper
+              model # Run insights monthly /insights # 30-day usage HTML report
+            </div>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-header">
+              <div class="tip-num tn-green">10</div>
+              <div class="tip-title">Use Skills &amp; Custom Commands</div>
+            </div>
+            <div class="tip-body">
+              Repeating the same complex prompt for common tasks is wasteful.
+              Package them as skills or custom commands. One well-written skill
+              invocation vs. a 5-sentence prompt every time adds up
+              significantly.
+            </div>
+            <div class="tip-code">
+              # Claude Code: create a skill # .claude/skills/pr-review/SKILL.md
+              --- name: pr-review description: Review current branch for PR ---
+              Review all changes on this branch: 1. Check for security
+              vulnerabilities 2. Check test coverage 3. Suggest improvements #
+              Invoke: /pr-review # Copilot: skills in .github/skills/ # Invoke:
+              /skill-name
+            </div>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-header">
+              <div class="tip-num tn-green">11</div>
+              <div class="tip-title">Use Prompt Caching (API Users)</div>
+            </div>
+            <div class="tip-body">
+              For teams using the Claude API directly: prompt caching gives 90%
+              savings on cache reads. Cache writes cost 1.25× base (5-min) or 2×
+              (1-hour), but cache reads cost only 0.1×. Structure prompts to
+              maximize cache hits.
+            </div>
+            <div class="tip-code">
+              # Cache system prompts and large contexts # Keep static context at
+              the FRONT of prompts # (dynamic user input at the end) # Minimum
+              cacheable block: 1024 tokens # Copilot equivalent: use repository
+              memory # Copilot learns patterns automatically and # reduces
+              repetitive context across sessions
+            </div>
+          </div>
+
+          <div class="tip-card">
+            <div class="tip-header">
+              <div class="tip-num tn-green">12</div>
+              <div class="tip-title">Leverage Extended Thinking Wisely</div>
+            </div>
+            <div class="tip-body">
+              Extended thinking is powerful but costs more tokens. Don't use it
+              for routine tasks. Reserve it for genuinely complex problems: hard
+              architectural decisions, debugging tricky race conditions, complex
+              algorithm design.
+            </div>
+            <div class="tip-code">
+              # Claude Code: toggle for current turn only Alt+T # (run
+              /terminal-setup first) # Or use the toggle in settings (persists)
+              # NOT recommended for: # - Simple file edits # - Boilerplate
+              generation # - Answering quick questions # USE for: # - System
+              architecture decisions # - Debugging complex race conditions # -
+              Designing algorithms
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-header">
+          <div class="section-icon si-green">📋</div>
+          <div>
+            <div class="section-title">
+              Quick Comparison: Claude Code vs GitHub Copilot CLI
+            </div>
+            <div class="section-desc">When to use which tool</div>
+          </div>
+        </div>
+
+        <table class="ref-table">
+          <thead>
+            <tr>
+              <th>Factor</th>
+              <th style="color: var(--claude-sec)">Claude Code</th>
+              <th style="color: var(--cop-sec)">GitHub Copilot CLI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Best For</td>
+              <td>Deep agentic coding tasks, complex multi-file refactors</td>
+              <td>
+                GitHub-integrated workflows, PR automation, team environments
+              </td>
+            </tr>
+            <tr>
+              <td>Context Window</td>
+              <td>200K tokens (1M beta for Sonnet 4.6)</td>
+              <td>Model-dependent; auto-compacts at 95%</td>
+            </tr>
+            <tr>
+              <td>Free Model Option</td>
+              <td>No (subscription or API key required)</td>
+              <td>Yes — GPT-4.1 and GPT-5 mini use no premium requests</td>
+            </tr>
+            <tr>
+              <td>GitHub Integration</td>
+              <td>Via MCP (GitHub MCP server)</td>
+              <td>Native — issues, PRs, code review built-in</td>
+            </tr>
+            <tr>
+              <td>Remote / Cloud Tasks</td>
+              <td>Claude Max only (claude.ai/code)</td>
+              <td>All plans — delegate to Copilot coding agent</td>
+            </tr>
+            <tr>
+              <td>Session Memory</td>
+              <td>CLAUDE.md per project + global settings</td>
+              <td>Persistent repo memory + copilot-instructions.md</td>
+            </tr>
+            <tr>
+              <td>Plugin Ecosystem</td>
+              <td>MCP servers + skills system</td>
+              <td>Plugin marketplace + MCP + skills</td>
+            </tr>
+            <tr>
+              <td>Cost Control</td>
+              <td>/cost, /model switch, /compact, --max-turns</td>
+              <td>
+                Free models, /model switch, /compact, premium request tracking
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- end optimize panel -->
+    </main>
+
+    <footer class="footer">
+      AI CLI Commands Reference · Claude Code v2.x &amp; GitHub Copilot CLI
+      v1.0.5 · Updated March 2026 · Sources: docs.anthropic.com ·
+      docs.github.com
+    </footer>
+
+    <script>
+      // ── MAIN TAB SWITCHING ──
+      document.querySelectorAll('.main-tab').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const panel = btn.dataset.panel
+          document
+            .querySelectorAll('.main-tab')
+            .forEach((b) => (b.className = 'main-tab'))
+          document
+            .querySelectorAll('.tab-panel')
+            .forEach((p) => p.classList.remove('active'))
+          document.getElementById('panel-' + panel).classList.add('active')
+          if (panel === 'claude') btn.classList.add('active-claude')
+          else if (panel === 'copilot') btn.classList.add('active-copilot')
+          else {
+            btn.style.color = 'var(--green)'
+            btn.style.borderBottomColor = 'var(--green)'
+          }
+        })
+      })
+
+      // ── SUB TAB SWITCHING ──
+      document.querySelectorAll('.sub-tab').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const subId = btn.dataset.sub
+          const parent = btn.closest('.tab-panel')
+          parent
+            .querySelectorAll('.sub-tab')
+            .forEach((b) => b.classList.remove('active'))
+          parent
+            .querySelectorAll('.sub-panel')
+            .forEach((p) => p.classList.remove('active'))
+          btn.classList.add('active')
+          document.getElementById('sub-' + subId).classList.add('active')
+        })
+      })
+    </script>
+  </body>
+</html>
