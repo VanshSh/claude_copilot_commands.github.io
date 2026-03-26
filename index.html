@@ -8,77 +8,91 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #080a0f;
-  --bg2: #0d1018;
-  --bg3: #12151f;
-  --bg4: #171b27;
-  --border: #1c2035;
-  --border2: #232844;
-  --text: #dde4f0;
-  --text2: #8b98b8;
-  --text3: #505a78;
-  --claude: #e8920a;
-  --claude2: #f5ab30;
-  --claude-dim: rgba(232,146,10,0.10);
-  --cop: #5b60f0;
-  --cop2: #7c81f7;
-  --cop-dim: rgba(91,96,240,0.10);
-  --green: #0fb97a;
-  --green2: #2dd4a0;
-  --green-dim: rgba(15,185,122,0.10);
-  --cyan: #0bbcd4;
-  --cyan-dim: rgba(11,188,212,0.10);
-  --purple: #9d5cf0;
-  --purple-dim: rgba(157,92,240,0.10);
-  --red: #f05a7c;
-  --red-dim: rgba(240,90,124,0.10);
-  --yellow: #d4af37;
-  --yellow-dim: rgba(212,175,55,0.10);
-  --r: 8px;
+  /* ── Palette: #909CC2 · #084887 · #F58A07 · #F9AB55 · #F7F5FB ── */
+  --navy:   #084887;
+  --slate:  #909CC2;
+  --amber:  #F58A07;
+  --amber2: #F9AB55;
+  --cream:  #F7F5FB;
+
+  /* ── LIGHT backgrounds ── */
+  --bg:     #F7F5FB;          /* page — cream */
+  --bg2:    #FFFFFF;          /* cards — pure white */
+  --bg3:    #EEF0FA;          /* hover — tinted cream */
+  --bg4:    #E3E6F4;          /* kbd raised surface */
+
+  /* ── Borders ── */
+  --border:  #D4D8EE;
+  --border2: #B4BBDA;
+
+  /* ── Text (dark on light) ── */
+  --text:   #0D1E3A;          /* near-black navy */
+  --text2:  #3A4D72;          /* mid navy */
+  --text3:  #7A89AE;          /* muted slate */
+
+  /* ── Claude = amber ── */
+  --claude:      #F58A07;
+  --claude2:     #C06800;     /* darker amber for text on white */
+  --claude-dim:  rgba(245,138,7,0.10);
+
+  /* ── Copilot = navy/slate ── */
+  --cop:     #084887;
+  --cop2:    #2663a3;
+  --cop-dim: rgba(8,72,135,0.08);
+
+  /* ── Accent colours ── */
+  --green:     #1a7a52;
+  --green2:    #1a7a52;
+  --green-dim: rgba(26,122,82,0.09);
+
+  --cyan:      #0c7fa8;
+  --cyan-dim:  rgba(12,127,168,0.09);
+
+  --purple:    #5b4fb5;
+  --purple-dim:rgba(91,79,181,0.09);
+
+  --red:       #c0392b;
+  --red-dim:   rgba(192,57,43,0.09);
+
+  --yellow:    #b07000;
+  --yellow-dim:rgba(176,112,0,0.09);
+
+  --r:    8px;
   --r-sm: 5px;
   --mono: 'IBM Plex Mono', monospace;
   --sans: 'DM Sans', sans-serif;
-  --sh: 0 2px 20px rgba(0,0,0,0.6);
+  --sh:   0 2px 16px rgba(8,72,135,0.10);
 }
+
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden;font-size:14px;line-height:1.55}
 
-/* grid bg */
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(91,96,240,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(91,96,240,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+/* subtle dot grid */
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle,rgba(144,156,194,0.35) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0}
 
 /* ── HEADER ── */
-.header{position:relative;z-index:10;border-bottom:1px solid var(--border);padding:36px 52px 28px;background:linear-gradient(180deg,rgba(8,10,15,0.98),rgba(8,10,15,0.5));backdrop-filter:blur(20px)}
+.header{position:relative;z-index:10;border-bottom:1px solid var(--border);padding:36px 52px 28px;background:linear-gradient(135deg,var(--navy) 0%,#0e6bbf 100%)}
 .header-inner{max-width:1480px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .header-left{display:flex;flex-direction:column;gap:5px}
-.eyebrow{font-family:var(--mono);font-size:10.5px;color:var(--text3);letter-spacing:3.5px;text-transform:uppercase}
-.h-title{font-size:30px;font-weight:800;letter-spacing:-0.6px;line-height:1.05;background:linear-gradient(120deg,#ffffff 20%,#8b98b8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.h-sub{font-size:13px;color:var(--text3);margin-top:3px;font-weight:400}
+.eyebrow{font-family:var(--mono);font-size:10.5px;color:rgba(247,245,251,0.6);letter-spacing:3.5px;text-transform:uppercase}
+.h-title{font-size:30px;font-weight:800;letter-spacing:-0.6px;line-height:1.05;color:#F7F5FB}
+.h-sub{font-size:13px;color:rgba(247,245,251,0.65);margin-top:3px;font-weight:400}
 .h-badges{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
-.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-family:var(--mono);font-size:10.5px;font-weight:500}
-.bg-green{background:var(--green-dim);color:var(--green2);border:1px solid rgba(15,185,122,0.2)}
-.bg-amber{background:var(--claude-dim);color:var(--claude2);border:1px solid rgba(232,146,10,0.2)}
-.bg-indigo{background:var(--cop-dim);color:var(--cop2);border:1px solid rgba(91,96,240,0.25)}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-family:var(--mono);font-size:10.5px;font-weight:600}
+.bg-green{background:rgba(255,255,255,0.15);color:#d4f5e8;border:1px solid rgba(255,255,255,0.25)}
+.bg-amber{background:rgba(245,138,7,0.22);color:#FDDFA0;border:1px solid rgba(249,171,85,0.45)}
+.bg-indigo{background:rgba(255,255,255,0.12);color:#d0d8f7;border:1px solid rgba(255,255,255,0.22)}
 .bdot{width:5px;height:5px;border-radius:50%;background:currentColor}
 
-/* ── SEARCH ── */
-.search-wrap{position:sticky;top:0;z-index:99;background:rgba(8,10,15,0.96);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:12px 52px}
-.search-inner{max-width:1480px;margin:0 auto;display:flex;gap:10px;align-items:center}
-.search-box{position:relative;flex:1;max-width:420px}
-.search-box input{width:100%;padding:9px 14px 9px 38px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-size:13px;font-family:var(--sans);outline:none;transition:border-color .18s}
-.search-box input:focus{border-color:var(--border2)}
-.search-box input::placeholder{color:var(--text3)}
-.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px;pointer-events:none}
-.search-hint{font-family:var(--mono);font-size:11px;color:var(--text3)}
-
 /* ── MAIN NAV TABS ── */
-.main-tabs{position:sticky;top:53px;z-index:98;background:rgba(8,10,15,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 52px}
+.main-tabs{position:sticky;top:0;z-index:99;background:rgba(247,245,251,0.97);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:0 52px;box-shadow:0 1px 0 var(--border)}
 .main-tabs-inner{max-width:1480px;margin:0 auto;display:flex}
-.mtab{display:flex;align-items:center;gap:9px;padding:16px 24px;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--text3);background:none;border:none;border-bottom:2px solid transparent;transition:all .18s;letter-spacing:0.1px;white-space:nowrap}
+.mtab{display:flex;align-items:center;gap:9px;padding:15px 24px;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--text3);background:none;border:none;border-bottom:2px solid transparent;transition:all .18s;letter-spacing:0.1px;white-space:nowrap}
 .mtab:hover{color:var(--text2)}
-.mtab.ac{color:var(--claude2);border-bottom-color:var(--claude2)}
-.mtab.ap{color:var(--cop2);border-bottom-color:var(--cop2)}
-.mtab.ag{color:var(--green2);border-bottom-color:var(--green2)}
+.mtab.ac{color:var(--claude);border-bottom-color:var(--amber)}
+.mtab.ap{color:var(--cop);border-bottom-color:var(--navy)}
+.mtab.ag{color:var(--green);border-bottom-color:var(--green)}
 .ti{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
 .ti-c{background:var(--claude-dim)}
 .ti-p{background:var(--cop-dim)}
@@ -89,92 +103,89 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .tab-panel{display:none}.tab-panel.active{display:block}
 
 /* ── SUB TABS ── */
-.sub-tabs{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:28px;padding:5px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r)}
-.stab{padding:7px 14px;border-radius:var(--r-sm);font-size:12px;font-weight:600;cursor:pointer;color:var(--text3);border:none;background:none;transition:all .15s;letter-spacing:0.2px}
-.stab:hover{color:var(--text2);background:var(--bg3)}
-.claude-panel .stab.active{background:var(--claude-dim);color:var(--claude2);border:1px solid rgba(232,146,10,0.2)}
-.copilot-panel .stab.active{background:var(--cop-dim);color:var(--cop2);border:1px solid rgba(91,96,240,0.2)}
-.optimize-panel .stab.active{background:var(--green-dim);color:var(--green2);border:1px solid rgba(15,185,122,0.2)}
+.sub-tabs{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:28px;padding:5px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r)}
+.stab{padding:7px 14px;border-radius:var(--r-sm);font-size:12px;font-weight:600;cursor:pointer;color:var(--text3);border:1px solid transparent;background:none;transition:all .15s;letter-spacing:0.2px}
+.stab:hover{color:var(--text2);background:var(--bg2);border-color:var(--border)}
+.claude-panel .stab.active{background:#fff;color:var(--claude2);border:1px solid rgba(245,138,7,0.35);box-shadow:0 1px 4px rgba(245,138,7,0.12)}
+.copilot-panel .stab.active{background:#fff;color:var(--cop2);border:1px solid rgba(8,72,135,0.3);box-shadow:0 1px 4px rgba(8,72,135,0.10)}
+.optimize-panel .stab.active{background:#fff;color:var(--green);border:1px solid rgba(26,122,82,0.3);box-shadow:0 1px 4px rgba(26,122,82,0.10)}
 .sub-panel{display:none}.sub-panel.active{display:block}
 
 /* ── SECTION HEADER ── */
 .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:20px}
 .sico{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-.sc{background:var(--claude-dim);border:1px solid rgba(232,146,10,0.2)}
-.sp{background:var(--cop-dim);border:1px solid rgba(91,96,240,0.2)}
-.sg{background:var(--green-dim);border:1px solid rgba(15,185,122,0.2)}
-.scn{background:var(--cyan-dim);border:1px solid rgba(11,188,212,0.2)}
-.spu{background:var(--purple-dim);border:1px solid rgba(157,92,240,0.2)}
+.sc{background:rgba(245,138,7,0.12);border:1px solid rgba(245,138,7,0.25)}
+.sp{background:rgba(8,72,135,0.08);border:1px solid rgba(8,72,135,0.2)}
+.sg{background:rgba(26,122,82,0.09);border:1px solid rgba(26,122,82,0.2)}
+.scn{background:var(--cyan-dim);border:1px solid rgba(12,127,168,0.2)}
+.spu{background:var(--purple-dim);border:1px solid rgba(91,79,181,0.2)}
 .sec-title{font-size:17px;font-weight:700;color:var(--text)}
 .sec-desc{font-size:12px;color:var(--text3);margin-top:2px}
 
 /* ── COMMAND CARDS ── */
 .cmd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:10px;margin-bottom:28px}
 .cmd-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:7px;position:relative;overflow:hidden;transition:all .16s;cursor:default}
-.cmd-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .16s}
+.cmd-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:1}
 .cmd-card:hover{border-color:var(--border2);background:var(--bg3);transform:translateY(-1px);box-shadow:var(--sh)}
-.cmd-card:hover::before{opacity:1}
-.cc::before{background:linear-gradient(90deg,var(--claude),var(--claude2))}
-.cp::before{background:linear-gradient(90deg,var(--cop),var(--cop2))}
-.cg::before{background:linear-gradient(90deg,#059669,var(--green))}
-.cy::before{background:linear-gradient(90deg,#d4af37,#f0cc56)}
-
-/* highlight on search match */
-.cmd-card.search-match{border-color:var(--border2);box-shadow:0 0 0 1px rgba(91,96,240,0.2)}
-.cmd-card.search-hidden{display:none}
+.cc::before{background:linear-gradient(90deg,var(--amber),var(--amber2))}
+.cp::before{background:linear-gradient(90deg,var(--navy),var(--slate))}
+.cg::before{background:linear-gradient(90deg,#1a7a52,#4cb88a)}
+.cy::before{background:linear-gradient(90deg,var(--amber),var(--amber2))}
 
 .cmd-top{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
 .cmd-name{font-family:var(--mono);font-size:12.5px;font-weight:600;padding:3px 8px;border-radius:4px;letter-spacing:-0.2px;white-space:nowrap}
-.nc{background:var(--claude-dim);color:var(--claude2);border:1px solid rgba(232,146,10,0.2)}
-.np{background:var(--cop-dim);color:var(--cop2);border:1px solid rgba(91,96,240,0.2)}
-.ng{background:var(--green-dim);color:var(--green2);border:1px solid rgba(15,185,122,0.2)}
-.ncn{background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(11,188,212,0.2)}
-.npu{background:var(--purple-dim);color:var(--purple);border:1px solid rgba(157,92,240,0.2)}
-.ny{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(212,175,55,0.2)}
-.nr{background:var(--red-dim);color:var(--red);border:1px solid rgba(240,90,124,0.2)}
+.nc{background:rgba(245,138,7,0.10);color:var(--claude2);border:1px solid rgba(245,138,7,0.28)}
+.np{background:rgba(8,72,135,0.08);color:var(--cop2);border:1px solid rgba(8,72,135,0.22)}
+.ng{background:rgba(26,122,82,0.09);color:var(--green2);border:1px solid rgba(26,122,82,0.22)}
+.ncn{background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(12,127,168,0.22)}
+.npu{background:var(--purple-dim);color:var(--purple);border:1px solid rgba(91,79,181,0.22)}
+.ny{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(176,112,0,0.22)}
+.nr{background:var(--red-dim);color:var(--red);border:1px solid rgba(192,57,43,0.22)}
 
 .tags{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
-.tag{font-size:10px;font-family:var(--mono);padding:2px 6px;border-radius:3px;font-weight:500}
-.t-ess{background:rgba(15,185,122,0.08);color:var(--green2);border:1px solid rgba(15,185,122,0.12)}
-.t-adv{background:rgba(157,92,240,0.08);color:var(--purple);border:1px solid rgba(157,92,240,0.12)}
-.t-perf{background:rgba(11,188,212,0.08);color:var(--cyan);border:1px solid rgba(11,188,212,0.12)}
-.t-new{background:rgba(240,90,124,0.08);color:var(--red);border:1px solid rgba(240,90,124,0.12)}
-.t-cfg{background:rgba(91,96,240,0.08);color:var(--cop2);border:1px solid rgba(91,96,240,0.12)}
-.t-dep{background:rgba(80,90,120,0.15);color:var(--text3);border:1px solid rgba(80,90,120,0.2)}
+.tag{font-size:10px;font-family:var(--mono);padding:2px 6px;border-radius:3px;font-weight:600}
+.t-ess{background:rgba(26,122,82,0.10);color:var(--green);border:1px solid rgba(26,122,82,0.22)}
+.t-adv{background:rgba(91,79,181,0.10);color:var(--purple);border:1px solid rgba(91,79,181,0.22)}
+.t-perf{background:rgba(12,127,168,0.10);color:var(--cyan);border:1px solid rgba(12,127,168,0.22)}
+.t-new{background:rgba(192,57,43,0.09);color:var(--red);border:1px solid rgba(192,57,43,0.22)}
+.t-cfg{background:rgba(8,72,135,0.08);color:var(--cop2);border:1px solid rgba(8,72,135,0.2)}
+.t-dep{background:rgba(144,156,194,0.15);color:var(--text3);border:1px solid rgba(144,156,194,0.3)}
 
 .cmd-alias{font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:-2px}
 .cmd-desc{font-size:12.5px;color:var(--text2);line-height:1.55}
-.cmd-ex{font-family:var(--mono);font-size:11.5px;color:var(--text3);background:var(--bg);padding:9px 12px;border-radius:var(--r-sm);border:1px solid var(--border);line-height:1.7;margin-top:2px;white-space:pre-wrap}
-.cmd-ex .hc{color:var(--claude2)}
-.cmd-ex .hp{color:var(--cop2)}
-.cmd-ex .hg{color:var(--green2)}
-.cmd-ex .hy{color:var(--yellow)}
+.cmd-ex{font-family:var(--mono);font-size:11.5px;color:var(--text3);background:var(--bg3);padding:9px 12px;border-radius:var(--r-sm);border:1px solid var(--border);line-height:1.7;margin-top:2px;white-space:pre-wrap}
+.cmd-ex .hc{color:var(--claude);font-weight:600}
+.cmd-ex .hp{color:var(--cop);font-weight:600}
+.cmd-ex .hg{color:var(--green);font-weight:600}
+.cmd-ex .hy{color:var(--yellow);font-weight:600}
 .cmd-ex .cm{color:var(--text3);font-style:italic}
 
 /* ── KEYBOARD GRID ── */
 .kbd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:7px;margin-bottom:28px}
-.kbd-row{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm);gap:10px}
+.kbd-row{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm);gap:10px;transition:background .14s}
+.kbd-row:hover{background:var(--bg3)}
 .kbd-label{font-size:12px;color:var(--text2);flex:1;line-height:1.4}
 .kbd-keys{display:flex;gap:3px;align-items:center;flex-shrink:0}
-kbd{font-family:var(--mono);font-size:10px;font-weight:600;padding:3px 7px;background:var(--bg4);border:1px solid var(--border2);border-bottom-width:2px;border-radius:4px;color:var(--text);white-space:nowrap}
+kbd{font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 8px;background:var(--bg4);border:1px solid var(--border2);border-bottom-width:2px;border-radius:4px;color:var(--navy);white-space:nowrap;box-shadow:0 1px 0 var(--border2)}
 .kp{font-size:10px;color:var(--text3)}
 
 /* ── INFO BOX ── */
-.info-box{display:flex;gap:13px;padding:14px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:18px}
+.info-box{display:flex;gap:13px;padding:14px 18px;background:#EEF4FF;border:1px solid #BFD0EA;border-radius:var(--r);margin-bottom:18px}
 .ib-icon{font-size:17px;flex-shrink:0;margin-top:1px}
-.ib-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.ib-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:3px}
 .ib-text{font-size:12px;color:var(--text2);line-height:1.6}
 
 /* ── INSTALL GRID ── */
 .inst-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:9px;margin-bottom:22px}
-.inst-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;display:flex;align-items:center;gap:11px}
+.inst-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;display:flex;align-items:center;gap:11px;transition:all .15s}
+.inst-card:hover{border-color:var(--border2);background:var(--bg3);box-shadow:var(--sh)}
 .inst-icon{font-size:19px;flex-shrink:0;width:34px;text-align:center}
 .inst-label{font-size:10.5px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
 .inst-cmd{font-family:var(--mono);font-size:11.5px;color:var(--text2)}
 
 /* ── TABLE ── */
 .rt{width:100%;border-collapse:collapse;margin-bottom:22px;font-size:12.5px}
-.rt th{text-align:left;padding:9px 13px;background:var(--bg3);border:1px solid var(--border);color:var(--text3);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-family:var(--mono)}
+.rt th{text-align:left;padding:9px 13px;background:linear-gradient(135deg,var(--navy),#1060b0);border:1px solid var(--navy);color:#F7F5FB;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-family:var(--mono)}
 .rt td{padding:9px 13px;border:1px solid var(--border);background:var(--bg2);vertical-align:top;line-height:1.5;color:var(--text2)}
 .rt tr:hover td{background:var(--bg3)}
 .rt td:first-child{font-family:var(--mono);font-size:11.5px;white-space:nowrap}
@@ -183,11 +194,11 @@ kbd{font-family:var(--mono);font-size:10px;font-weight:600;padding:3px 7px;backg
 .tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px;margin-bottom:28px}
 .tip-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:7px}
 .tip-top{display:flex;align-items:center;gap:9px}
-.tip-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;flex-shrink:0}
-.tn-g{background:var(--green-dim);color:var(--green2)}
+.tip-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;flex-shrink:0;background:var(--navy);color:#fff}
+.tn-g{background:var(--navy);color:#fff}
 .tip-title{font-size:13px;font-weight:700;color:var(--text)}
 .tip-body{font-size:12px;color:var(--text2);line-height:1.6}
-.tip-code{font-family:var(--mono);font-size:11px;color:var(--text3);background:var(--bg);padding:9px 12px;border-radius:var(--r-sm);border-left:2px solid var(--border2);line-height:1.75;white-space:pre-wrap}
+.tip-code{font-family:var(--mono);font-size:11px;color:var(--text3);background:var(--bg3);padding:9px 12px;border-radius:var(--r-sm);border-left:3px solid var(--amber);line-height:1.75;white-space:pre-wrap}
 
 /* ── DIVIDER ── */
 .div{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:28px 0}
@@ -195,35 +206,35 @@ kbd{font-family:var(--mono);font-size:10px;font-weight:600;padding:3px 7px;backg
 /* ── VIM TABLE ── */
 .vim-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:10px;margin-bottom:24px}
 .vim-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
-.vim-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px;font-family:var(--mono);color:var(--cop2)}
+.vim-title{font-size:11px;font-weight:700;margin-bottom:10px;font-family:var(--mono);color:var(--cop2);text-transform:uppercase;letter-spacing:1px}
 .vim-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)}
 .vim-row:last-child{border-bottom:none}
-.vim-keys{font-family:var(--mono);font-size:11px;color:var(--claude2);flex-shrink:0;min-width:100px}
+.vim-keys{font-family:var(--mono);font-size:11px;color:var(--amber);font-weight:700;flex-shrink:0;min-width:100px}
 .vim-desc{font-size:12px;color:var(--text2)}
 
 /* ── COUNT BADGE ── */
-.count{font-family:var(--mono);font-size:10px;padding:2px 6px;border-radius:99px;margin-left:6px;font-weight:600;background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.count{font-family:var(--mono);font-size:10px;padding:2px 6px;border-radius:99px;margin-left:6px;font-weight:700;background:rgba(255,255,255,0.18);color:rgba(247,245,251,0.8);border:1px solid rgba(255,255,255,0.22)}
+.mtab:not(.ac):not(.ap):not(.ag) .count{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+
+/* section label */
+p[style*="text3"]{letter-spacing:1.5px}
 
 /* scrollbar */
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:var(--text3)}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg3)}
+::-webkit-scrollbar-thumb{background:var(--slate);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--navy)}
 
 /* footer */
-.footer{border-top:1px solid var(--border);padding:20px 52px;text-align:center;font-size:11px;color:var(--text3);font-family:var(--mono);position:relative;z-index:1}
+.footer{border-top:1px solid var(--border);padding:20px 52px;text-align:center;font-size:11px;color:var(--text3);font-family:var(--mono);position:relative;z-index:1;background:var(--bg2)}
 
 /* responsive */
 @media(max-width:768px){
-  .header,.main-tabs,.search-wrap,.content,.footer{padding-left:16px;padding-right:16px}
+  .header,.main-tabs,.content,.footer{padding-left:16px;padding-right:16px}
   .cmd-grid,.kbd-grid,.tips-grid,.vim-grid,.inst-grid{grid-template-columns:1fr}
   .h-title{font-size:22px}
   .mtab{padding:12px 14px;font-size:12px}
 }
-
-/* no results */
-.no-results{display:none;padding:40px;text-align:center;color:var(--text3);font-size:13px;font-family:var(--mono);grid-column:1/-1}
-.no-results.show{display:block}
 </style>
 </head>
 <body>
@@ -243,15 +254,6 @@ kbd{font-family:var(--mono);font-size:10px;font-weight:600;padding:3px 7px;backg
   </div>
 </header>
 
-<div class="search-wrap">
-  <div class="search-inner">
-    <div class="search-box">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" placeholder="Search any command, flag, shortcut…" autocomplete="off">
-    </div>
-    <span class="search-hint" id="searchHint">Type to filter across all commands</span>
-  </div>
-</div>
 
 <nav class="main-tabs">
   <div class="main-tabs-inner">
@@ -274,6 +276,12 @@ kbd{font-family:var(--mono);font-size:10px;font-weight:600;padding:3px 7px;backg
     <button class="stab" data-sub="cc-kbd">Keyboard Shortcuts</button>
     <button class="stab" data-sub="cc-vim">Vim Mode</button>
     <button class="stab" data-sub="cc-prefix">Input Prefixes</button>
+    <button class="stab" data-sub="cc-headless">Headless Mode</button>
+    <button class="stab" data-sub="cc-mcp">MCP Servers</button>
+    <button class="stab" data-sub="cc-hooks">Hooks</button>
+    <button class="stab" data-sub="cc-permissions">Permissions</button>
+    <button class="stab" data-sub="cc-worktrees">Git Worktrees</button>
+    <button class="stab" data-sub="cc-subagents">Subagents</button>
     <button class="stab" data-sub="cc-session">Session Management</button>
     <button class="stab" data-sub="cc-config">Config Files</button>
     <button class="stab" data-sub="cc-ide">IDE Integration</button>
@@ -284,6 +292,9 @@ kbd{font-family:var(--mono);font-size:10px;font-weight:600;padding:3px 7px;backg
     <div class="sec-head"><div class="sico sc">📦</div><div><div class="sec-title">Installation &amp; First Steps</div><div class="sec-desc">Get Claude Code running — requires Node.js 18+ and Claude Pro/Max or API key</div></div></div>
     <div class="inst-grid">
       <div class="inst-card"><div class="inst-icon">📦</div><div><div class="inst-label">npm (recommended)</div><div class="inst-cmd">npm install -g @anthropic-ai/claude-code</div></div></div>
+      <div class="inst-card"><div class="inst-icon">🍺</div><div><div class="inst-label">Homebrew (macOS)</div><div class="inst-cmd">brew install --cask claude-code</div></div></div>
+      <div class="inst-card"><div class="inst-icon">📜</div><div><div class="inst-label">curl (macOS/Linux)</div><div class="inst-cmd">curl -fsSL https://claude.ai/install.sh | bash</div></div></div>
+      <div class="inst-card"><div class="inst-icon">🪟</div><div><div class="inst-label">PowerShell (Windows)</div><div class="inst-cmd">irm https://claude.ai/install.ps1 | iex</div></div></div>
       <div class="inst-card"><div class="inst-icon">🔑</div><div><div class="inst-label">Authenticate</div><div class="inst-cmd">claude auth login</div></div></div>
       <div class="inst-card"><div class="inst-icon">✅</div><div><div class="inst-label">Check Auth Status</div><div class="inst-cmd">claude auth status</div></div></div>
       <div class="inst-card"><div class="inst-icon">🚀</div><div><div class="inst-label">Start Interactive Session</div><div class="inst-cmd">claude</div></div></div>
@@ -696,6 +707,298 @@ claude config set workdir /path/to/project
 claude config list</div></div>
     </div>
   </div>
+
+  <!-- HEADLESS MODE -->
+  <div class="sub-panel" id="sub-cc-headless">
+    <div class="sec-head"><div class="sico sc">🤖</div><div><div class="sec-title">Headless Mode — Automation &amp; CI/CD</div><div class="sec-desc">Use --print / -p for non-interactive scripting, pipelines, and SRE bots</div></div></div>
+    <div class="cmd-grid">
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">claude -p "query"</span><div class="tags"><span class="tag t-ess">essential</span></div></div><div class="cmd-desc">Non-interactive mode — print result and exit. Gateway to all scripting.</div><div class="cmd-ex">claude <span class="hc">-p</span> "explain this codebase" > docs.md
+echo "query" | claude <span class="hc">-p</span>   <span class="cm"># piped input</span></div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">--output-format json</span></div><div class="cmd-desc">Output structured JSON with metadata: cost, duration, session_id. Use for programmatic parsing.</div><div class="cmd-ex">claude -p "analyze" <span class="hc">--output-format json</span> | jq '.result'</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">--output-format stream-json</span></div><div class="cmd-desc">Stream JSON messages as they arrive. Compatible with real-time processing pipelines.</div><div class="cmd-ex">claude -p "review" <span class="hc">--output-format stream-json</span></div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">claude -c -p "query"</span></div><div class="cmd-desc">Continue most recent conversation non-interactively. Maintain context across pipeline steps.</div><div class="cmd-ex">claude <span class="hc">-c -p</span> "now check compliance"</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">--resume &lt;id&gt; -p</span></div><div class="cmd-desc">Resume a specific named session non-interactively. Capture session_id from previous run's JSON output.</div><div class="cmd-ex">session_id=$(claude -p "Start review" --output-format json | jq -r '.session_id')
+claude <span class="hc">--resume "$session_id"</span> -p "Check compliance"
+claude --resume "$session_id" -p "Generate summary"</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">--verbose -p</span></div><div class="cmd-desc">Enable verbose logging for debugging headless runs. Shows full turn-by-turn tool usage.</div><div class="cmd-ex">claude <span class="hc">--verbose</span> -p "query"</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">--max-turns &lt;n&gt;</span><div class="tags"><span class="tag t-perf">perf</span></div></div><div class="cmd-desc">Limit agentic turns in non-interactive mode. Circuit breaker for runaway automated pipelines.</div><div class="cmd-ex">claude -p "fix all lint errors" <span class="hc">--max-turns 3</span></div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">SRE Incident Response</span><div class="tags"><span class="tag t-adv">example</span></div></div><div class="cmd-desc">Automated incident investigation with domain-specific system prompt and specific tools.</div><div class="cmd-ex">claude -p "Analyze these errors" \
+  <span class="hc">--append-system-prompt</span> "You are an SRE expert" \
+  --output-format json \
+  --allowedTools "Bash,Read,mcp__datadog"</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Security Audit Pipeline</span><div class="tags"><span class="tag t-adv">example</span></div></div><div class="cmd-desc">Automated PR security review — pipe git diff output directly into Claude.</div><div class="cmd-ex">gh pr diff 123 | claude -p \
+  <span class="hc">--append-system-prompt</span> "You are a security engineer" \
+  --output-format json \
+  --allowedTools "Read,Grep" > audit.json</div></div>
+    </div>
+  </div>
+
+  <!-- MCP SERVERS -->
+  <div class="sub-panel" id="sub-cc-mcp">
+    <div class="sec-head"><div class="sico sc">🔌</div><div><div class="sec-title">MCP Servers — Model Context Protocol</div><div class="sec-desc">Extend Claude Code with external tools and integrations. Manage via /mcp or claude mcp CLI commands.</div></div></div>
+    <div class="info-box"><div class="ib-icon">⚠️</div><div><div class="ib-title">MCP Permissions Note</div><div class="ib-text">Wildcards are NOT supported in MCP tool permissions. <code>mcp__github__*</code> will NOT work. To approve all tools from a server use <code>"allow": ["mcp__github"]</code>. To approve a specific tool use <code>"allow": ["mcp__github__get_issue"]</code>.</div></div></div>
+    <div class="cmd-grid">
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">claude mcp add</span><div class="tags"><span class="tag t-ess">essential</span></div></div><div class="cmd-desc">Add an MCP server. Supports stdio, SSE, and HTTP transports. Saved to ~/.claude/mcp.json globally.</div><div class="cmd-ex">claude <span class="hc">mcp add</span> &lt;name&gt; &lt;command&gt; [args...]
+claude <span class="hc">mcp add --transport sse</span> &lt;name&gt; &lt;url&gt;
+claude <span class="hc">mcp add --transport http</span> &lt;name&gt; &lt;url&gt;</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">claude mcp list</span></div><div class="cmd-desc">List all installed MCP servers with their transport type and status.</div><div class="cmd-ex">claude <span class="hc">mcp list</span></div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">claude mcp remove</span></div><div class="cmd-desc">Remove an MCP server by name.</div><div class="cmd-ex">claude <span class="hc">mcp remove</span> github</div></div>
+    </div>
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">POPULAR MCP INTEGRATIONS (from awesomeclaude.ai)</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">GitHub</span></div><div class="cmd-desc">Manage repositories, PRs, and issues natively in Claude.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> github https://api.githubcopilot.com/mcp/</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Figma</span></div><div class="cmd-desc">Generate code with full Figma design context.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> figma https://mcp.figma.com/mcp</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Linear</span></div><div class="cmd-desc">Issue tracking and project management.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> linear https://mcp.linear.app/mcp</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Notion</span></div><div class="cmd-desc">Read docs, update pages, manage tasks.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> notion https://mcp.notion.com/mcp</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Sentry</span></div><div class="cmd-desc">Monitor errors, debug production issues.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> sentry https://mcp.sentry.dev/mcp</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Supabase</span></div><div class="cmd-desc">Database operations and schema management.</div><div class="cmd-ex">claude mcp add --transport stdio supabase \
+  --env SUPABASE_ACCESS_TOKEN=YOUR_TOKEN \
+  -- npx -y @supabase/mcp-server-supabase@latest</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Playwright</span></div><div class="cmd-desc">Advanced browser automation.</div><div class="cmd-ex">claude mcp add --transport stdio playwright \
+  -- npx @playwright/mcp@latest</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Vercel</span></div><div class="cmd-desc">Manage projects, deployments, and logs.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> vercel https://mcp.vercel.com/</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Stripe</span></div><div class="cmd-desc">Payment processing and subscriptions.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> stripe https://mcp.stripe.com</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Atlassian (Jira + Confluence)</span></div><div class="cmd-desc">Manage Jira tickets and Confluence documentation.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport sse</span> atlassian https://mcp.atlassian.com/v1/sse</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Asana</span></div><div class="cmd-desc">Interact with your Asana workspace.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport sse</span> asana https://mcp.asana.com/sse</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">HubSpot</span></div><div class="cmd-desc">Access and manage HubSpot CRM data.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> hubspot https://mcp.hubspot.com/anthropic</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Cloudflare</span></div><div class="cmd-desc">Build apps, analyze traffic, manage security.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> cloudflare https://mcp.cloudflare.com/mcp</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Netlify</span></div><div class="cmd-desc">Create, deploy, and manage websites.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> netlify https://netlify-mcp.netlify.app/mcp</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Monday.com</span></div><div class="cmd-desc">Manage boards and items.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> monday https://mcp.monday.com/mcp</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Zapier</span></div><div class="cmd-desc">Connect to 8,000+ apps via Zapier automation.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> zapier https://mcp.zapier.com/mcp</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Puppeteer</span></div><div class="cmd-desc">Browser automation with Puppeteer.</div><div class="cmd-ex">claude mcp add --transport stdio puppeteer \
+  -- npx -y @modelcontextprotocol/server-puppeteer</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Canva</span></div><div class="cmd-desc">Browse, summarize, autofill and generate Canva designs.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> canva https://mcp.canva.com/mcp</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Hugging Face</span></div><div class="cmd-desc">Access Hugging Face Hub models and Gradio apps.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> huggingface https://huggingface.co/mcp</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">PayPal</span></div><div class="cmd-desc">Payment processing and transaction management.</div><div class="cmd-ex">claude mcp add <span class="hc">--transport http</span> paypal https://mcp.paypal.com/mcp</div></div>
+    </div>
+  </div>
+
+  <!-- HOOKS -->
+  <div class="sub-panel" id="sub-cc-hooks">
+    <div class="sec-head"><div class="sico sc">🪝</div><div><div class="sec-title">Hooks — Automation &amp; Lifecycle Events</div><div class="sec-desc">Execute shell commands automatically at key points. Hooks guarantee execution — unlike prompts, they always run.</div></div></div>
+    <div class="info-box"><div class="ib-icon">⚠️</div><div><div class="ib-title">Security Warning</div><div class="ib-text">Hooks execute shell commands automatically with your credentials. Always review hook code before adding. Malicious hooks can damage your system or exfiltrate data. Exit code 0 = success, 2 = block and show error to Claude, other = error.</div></div></div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">HOOK EVENTS</p>
+    <table class="rt">
+      <thead><tr><th>Event</th><th>When it fires</th><th>Use case</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--claude2)">PreToolUse</td><td>Before any tool call</td><td>Block dangerous operations, security checks, logging</td></tr>
+        <tr><td style="color:var(--claude2)">PostToolUse</td><td>After tool call completes</td><td>Auto-format files after edits, run linters, tests</td></tr>
+        <tr><td style="color:var(--claude2)">UserPromptSubmit</td><td>When user submits prompt</td><td>Add context, validate input, enforce policies</td></tr>
+        <tr><td style="color:var(--claude2)">Notification</td><td>When Claude sends a notification</td><td>Desktop alerts, Slack notifications, logging</td></tr>
+        <tr><td style="color:var(--claude2)">Stop</td><td>When Claude finishes responding</td><td>Log sessions, trigger CI, send summaries</td></tr>
+        <tr><td style="color:var(--claude2)">SubagentStop</td><td>When a subagent task completes</td><td>Aggregate results, trigger next step</td></tr>
+        <tr><td style="color:var(--claude2)">PreCompact</td><td>Before /compact operation</td><td>Save context snapshot, backup conversation</td></tr>
+        <tr><td style="color:var(--claude2)">SessionStart</td><td>Session starts or resumes</td><td>Load context, restore state, environment setup</td></tr>
+        <tr><td style="color:var(--claude2)">SessionEnd</td><td>Session ends</td><td>Cleanup, finalize logs, push metrics</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">HOOK EXAMPLES</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Auto-Format on Save</span><div class="tags"><span class="tag t-ess">popular</span></div></div><div class="cmd-desc">Run Prettier automatically after every file edit. Save in settings.json hooks section.</div><div class="cmd-ex">{
+  "hooks": {
+    "<span class="hc">PostToolUse</span>": [{
+      "matcher": "Edit|Write",
+      "hooks": [{
+        "type": "command",
+        "command": "npx prettier --write $FILE_PATH"
+      }]
+    }]
+  }
+}</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Log All Sessions</span></div><div class="cmd-desc">Keep a persistent activity log of all Claude Code sessions.</div><div class="cmd-ex">{
+  "hooks": {
+    "<span class="hc">Stop</span>": [{
+      "hooks": [{
+        "type": "command",
+        "command": "echo \"$(date): $CONVERSATION_SUMMARY\" >> ~/.claude/activity.log"
+      }]
+    }]
+  }
+}</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Block Dangerous Commands</span></div><div class="cmd-desc">Use PreToolUse with exit code 2 to block and show error to Claude. Prevents rm -rf, git push to main, etc.</div><div class="cmd-ex"><span class="cm"># Hook script: .claude/hooks/guard.sh</span>
+#!/bin/bash
+TOOL=$(echo "$1" | jq -r '.tool')
+CMD=$(echo "$1" | jq -r '.input.command // ""')
+if echo "$CMD" | grep -q "rm -rf"; then
+  echo "Blocked: rm -rf not allowed"
+  exit 2   <span class="cm"># exit 2 = block + show to Claude</span>
+fi</div></div>
+    </div>
+    <div class="info-box"><div class="ib-icon">💡</div><div><div class="ib-title">Hook Configuration Locations</div><div class="ib-text">User hooks: <code>~/.claude/settings.json</code> (applies globally). Project hooks: <code>.claude/settings.json</code> (shared with team via git). Matchers support tool names like <code>Bash</code>, <code>Edit|Write</code>, <code>*</code> (wildcard). Use <code>$CLAUDE_PROJECT_DIR</code> for relative project paths. Hooks receive session data via stdin as JSON — use <code>jq</code> to parse.</div></div></div>
+  </div>
+
+  <!-- PERMISSIONS -->
+  <div class="sub-panel" id="sub-cc-permissions">
+    <div class="sec-head"><div class="sico sc">🔒</div><div><div class="sec-title">Permissions &amp; Security Settings</div><div class="sec-desc">Control what Claude can do. Settings saved in .claude/settings.json (project) or ~/.claude/settings.json (global)</div></div></div>
+
+    <div class="cmd-grid">
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Basic Security Template</span><div class="tags"><span class="tag t-ess">recommended</span></div></div><div class="cmd-desc">Good starting point for most projects. Block sensitive files, allow common dev commands, ask for push/install.</div><div class="cmd-ex">{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(git status)",
+      "Bash(git diff)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(npm install *)"
+    ],
+    "deny": [
+      "Read(./.env*)",
+      "Read(./secrets/**)",
+      "Read(./**/credentials*)",
+      "Bash(rm -rf:*)",
+      "Bash(curl:*)"
+    ]
+  }
+}</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Strict Security Template</span><div class="tags"><span class="tag t-adv">production</span></div></div><div class="cmd-desc">Maximum security for sensitive/production codebases. Ask before any write, block network and secrets access.</div><div class="cmd-ex">{
+  "permissions": {
+    "ask": [
+      "Bash(*)",
+      "Write(*)",
+      "Edit(*)"
+    ],
+    "deny": [
+      "Read(./.env*)",
+      "Read(./secrets/**)",
+      "Read(./config/**)",
+      "Read(./**/*.key)",
+      "Read(./**/*.pem)",
+      "WebFetch",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(ssh:*)"
+    ]
+  }
+}</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Slash Command Permissions</span></div><div class="cmd-desc">Control which slash commands Claude can invoke automatically. Restrict automated command execution.</div><div class="cmd-ex">{
+  "permissions": {
+    "allow": [
+      "SlashCommand:/commit",
+      "SlashCommand:/review-pr:*"
+    ],
+    "deny": [
+      "SlashCommand"   <span class="cm"># block all others</span>
+    ]
+  }
+}</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Enterprise MCP Restrictions</span></div><div class="cmd-desc">Control which MCP servers employees can use. Denylist takes absolute precedence over allowlist. Use managed-settings.json for enterprise rollout.</div><div class="cmd-ex">{
+  "allowedMcpServers": [
+    { "serverName": "github" },
+    { "serverName": "sentry" },
+    { "serverName": "company-internal" }
+  ],
+  "deniedMcpServers": [
+    { "serverName": "filesystem" }
+  ]
+}</div></div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">SETTINGS FILE PRIORITY ORDER</p>
+    <table class="rt">
+      <thead><tr><th>Priority</th><th>File</th><th>Who controls it</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--claude2)">1 (highest)</td><td>/etc/claude-code/managed-settings.json</td><td>Enterprise IT — overrides everything</td></tr>
+        <tr><td style="color:var(--claude2)">2</td><td>.claude/settings.local.json</td><td>Developer personal, git-ignored</td></tr>
+        <tr><td style="color:var(--claude2)">3</td><td>.claude/settings.json</td><td>Team shared, committed to git</td></tr>
+        <tr><td style="color:var(--claude2)">4 (lowest)</td><td>~/.claude/settings.json</td><td>Personal defaults across all projects</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- GIT WORKTREES -->
+  <div class="sub-panel" id="sub-cc-worktrees">
+    <div class="sec-head"><div class="sico sc">🌿</div><div><div class="sec-title">Git Worktrees — Parallel Development</div><div class="sec-desc">Run multiple Claude sessions in parallel on isolated branches. No stash, no checkout, no context loss.</div></div></div>
+    <div class="info-box"><div class="ib-icon">⚡</div><div><div class="ib-title">Why Worktrees?</div><div class="ib-text">Each Claude session keeps full project understanding in its own context. Handle hotfixes while continuing feature development. Test risky refactors in complete isolation — if it fails, just delete the directory. Compare different AI models on identical tasks. Zero switching cost vs. git stash + checkout + restart.</div></div></div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">ESSENTIAL WORKTREE COMMANDS</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">git worktree add</span><div class="tags"><span class="tag t-ess">essential</span></div></div><div class="cmd-desc">Create a new worktree with an existing or new branch.</div><div class="cmd-ex">git <span class="hc">worktree add</span> &lt;path&gt; &lt;branch&gt;         <span class="cm"># existing branch</span>
+git <span class="hc">worktree add</span> &lt;path&gt; -b &lt;branch&gt; main  <span class="cm"># new branch from main</span></div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">git worktree list</span></div><div class="cmd-desc">List all worktrees and their checked-out branches.</div><div class="cmd-ex">git <span class="hc">worktree list</span></div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">git worktree remove</span></div><div class="cmd-desc">Remove a worktree when done.</div><div class="cmd-ex">git <span class="hc">worktree remove</span> ../myapp-hotfix</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">git worktree prune</span></div><div class="cmd-desc">Clean up stale worktree references.</div><div class="cmd-ex">git <span class="hc">worktree prune</span></div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">git worktree move</span></div><div class="cmd-desc">Move a worktree to a new path.</div><div class="cmd-ex">git <span class="hc">worktree move</span> ../myapp-feature ../other-dir</div></div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">WORKFLOW PATTERNS</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Parallel Features</span><div class="tags"><span class="tag t-adv">pattern</span></div></div><div class="cmd-desc">Work on multiple features simultaneously — each has its own Claude session and full context.</div><div class="cmd-ex">git worktree add ../myapp-auth -b feature/auth main
+git worktree add ../myapp-api -b feature/api main
+<span class="cm"># Two terminals, two Claude sessions:</span>
+cd ../myapp-auth && claude
+cd ../myapp-api && claude</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Hotfix While Developing</span><div class="tags"><span class="tag t-adv">pattern</span></div></div><div class="cmd-desc">Handle urgent fixes without losing your current feature context.</div><div class="cmd-ex">git worktree add ../myapp-hotfix -b hotfix/critical main
+cd ../myapp-hotfix
+claude "fix the critical production bug"
+<span class="cm"># Original feature work continues unaffected</span></div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Safe Experiment</span><div class="tags"><span class="tag t-adv">pattern</span></div></div><div class="cmd-desc">Try risky refactors in complete isolation. If it fails, just delete the directory — no stash gymnastics.</div><div class="cmd-ex">git worktree add ../myapp-exp -b experiment/refactor main
+cd ../myapp-exp
+claude "refactor the entire auth system"
+<span class="cm"># If bad: rm -rf ../myapp-exp</span>
+<span class="cm"># If good: git merge experiment/refactor</span></div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Model Comparison</span><div class="tags"><span class="tag t-adv">pattern</span></div></div><div class="cmd-desc">Run different AI models on identical tasks side-by-side. Compare output quality and cost.</div><div class="cmd-ex">git worktree add ../ml-sonnet -b experiment/sonnet main
+git worktree add ../ml-opus -b experiment/opus main
+cd ../ml-sonnet && claude --model sonnet
+cd ../ml-opus && claude --model opus</div></div>
+    </div>
+  </div>
+
+  <!-- SUBAGENTS -->
+  <div class="sub-panel" id="sub-cc-subagents">
+    <div class="sec-head"><div class="sico sc">🤖</div><div><div class="sec-title">Subagents — Specialized AI Assistants</div><div class="sec-desc">Fine-tuned Claude instances with their own context, tools, and expertise. Defined in .claude/agents/ or ~/.claude/agents/</div></div></div>
+    <div class="info-box"><div class="ib-icon">💡</div><div><div class="ib-title">Subagent File Format</div><div class="ib-text">Markdown files with YAML frontmatter: <code>name</code>, <code>description</code> (controls when Claude auto-invokes it), <code>tools</code> (optional — inherits all if omitted), <code>model</code> (inherit | sonnet | opus | haiku). Add "proactively" or "MUST BE USED" to the description for automatic invocation. Chain with: "Use debugger then optimizer subagents".</div></div></div>
+
+    <div class="cmd-grid">
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Code Reviewer Agent</span><div class="tags"><span class="tag t-adv">template</span></div></div><div class="cmd-desc">Expert code review after writing or modifying code. Auto-invoked when code is changed.</div><div class="cmd-ex"><span class="cm"># .claude/agents/code-reviewer.md</span>
+---
+name: code-reviewer
+description: <span class="hc">Proactively</span> reviews code for quality,
+  security, and maintainability after writing code.
+tools: Read, Grep, Glob, Bash
+model: inherit
+---
+You are a senior code reviewer.
+Review checklist:
+- No exposed secrets or API keys
+- Proper error handling
+- Input validation implemented
+- Good test coverage</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Debugger Agent</span><div class="tags"><span class="tag t-adv">template</span></div></div><div class="cmd-desc">Root cause analysis specialist. Use when encountering errors, test failures, or unexpected behavior.</div><div class="cmd-ex"><span class="cm"># .claude/agents/debugger.md</span>
+---
+name: debugger
+description: Debugging specialist for errors
+  and test failures. Use <span class="hc">proactively</span> when
+  encountering any issues.
+tools: Read, Edit, Bash, Grep, Glob
+model: sonnet
+---
+Root cause analysis specialist.
+Capture error → isolate → fix → verify.</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Data Scientist Agent</span><div class="tags"><span class="tag t-adv">template</span></div></div><div class="cmd-desc">SQL and data analysis expert. Use when working with data queries or analytics tasks.</div><div class="cmd-ex"><span class="cm"># .claude/agents/data-scientist.md</span>
+---
+name: data-scientist
+description: Data analysis expert for SQL,
+  BigQuery, and analytics tasks.
+tools: Bash, Read, Write
+model: opus
+---
+Specializes in optimized SQL queries,
+BigQuery CLI, and data-driven insights.</div></div>
+      <div class="cmd-card cc"><div class="cmd-top"><span class="cmd-name nc">Built-in System Subagents</span></div><div class="cmd-desc">Pre-built subagents Claude Code uses automatically for internal operations.</div><div class="cmd-ex"><span class="cm"># Auto-used internally by Claude Code:</span>
+explore    <span class="cm"># codebase analysis and understanding</span>
+task       <span class="cm"># running commands and builds</span>
+general    <span class="cm"># complex multi-step tasks</span>
+debugger   <span class="cm"># error investigation</span>
+code-review <span class="cm"># change analysis (used by /simplify)</span></div></div>
+    </div>
+  </div>
+
 </div><!-- end claude panel -->
 
 
@@ -709,6 +1012,8 @@ claude config list</div></div>
     <button class="stab" data-sub="cp-cli">CLI Flags</button>
     <button class="stab" data-sub="cp-kbd">Keyboard Shortcuts</button>
     <button class="stab" data-sub="cp-ide">IDE Commands</button>
+    <button class="stab" data-sub="cp-vscode">VS Code Cheat Sheet</button>
+    <button class="stab" data-sub="cp-agents">Agents &amp; Customization</button>
     <button class="stab" data-sub="cp-config">Config Files</button>
   </div>
 
@@ -997,6 +1302,246 @@ copilot -p "review PR" <span class="hp">--share-gist</span></div></div>
       </tbody>
     </table>
   </div>
+
+  <!-- VS CODE CHEAT SHEET -->
+  <div class="sub-panel" id="sub-cp-vscode">
+    <div class="sec-head"><div class="sico sp">💻</div><div><div class="sec-title">VS Code Cheat Sheet</div><div class="sec-desc">Complete reference from code.visualstudio.com/docs/copilot/reference/copilot-vscode-features</div></div></div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">ESSENTIAL KEYBOARD SHORTCUTS</p>
+    <div class="kbd-grid">
+      <div class="kbd-row"><span class="kbd-label">Open Chat view (Secondary Side Bar)</span><div class="kbd-keys"><kbd>Ctrl</kbd><span class="kp">+</span><kbd>Alt</kbd><span class="kp">+</span><kbd>I</kbd><span class="kp"> / </span><kbd>⌃⌘I</kbd></div></div>
+      <div class="kbd-row"><span class="kbd-label">Start inline chat in editor or terminal</span><div class="kbd-keys"><kbd>Ctrl</kbd><span class="kp">+</span><kbd>I</kbd><span class="kp"> / </span><kbd>⌘I</kbd></div></div>
+      <div class="kbd-row"><span class="kbd-label">Open Quick Chat (without leaving current task)</span><div class="kbd-keys"><kbd>Ctrl</kbd><span class="kp">+</span><kbd>Shift</kbd><span class="kp">+</span><kbd>Alt</kbd><span class="kp">+</span><kbd>L</kbd></div></div>
+      <div class="kbd-row"><span class="kbd-label">Start new chat session in Chat view</span><div class="kbd-keys"><kbd>Ctrl</kbd><span class="kp">+</span><kbd>N</kbd></div></div>
+      <div class="kbd-row"><span class="kbd-label">Switch to using agents mode in Chat view</span><div class="kbd-keys"><kbd>Ctrl</kbd><span class="kp">+</span><kbd>Shift</kbd><span class="kp">+</span><kbd>I</kbd></div></div>
+      <div class="kbd-row"><span class="kbd-label">Show model picker (select different AI model)</span><div class="kbd-keys"><kbd>Ctrl</kbd><span class="kp">+</span><kbd>Alt</kbd><span class="kp">+</span><kbd>.</kbd></div></div>
+      <div class="kbd-row"><span class="kbd-label">Enter voice chat prompt in Chat view</span><div class="kbd-keys"><kbd>⌘I</kbd><span class="kp"> (macOS)</span></div></div>
+      <div class="kbd-row"><span class="kbd-label">Accept inline suggestion</span><div class="kbd-keys"><kbd>Tab</kbd></div></div>
+      <div class="kbd-row"><span class="kbd-label">Dismiss inline suggestion</span><div class="kbd-keys"><kbd>Esc</kbd></div></div>
+      <div class="kbd-row"><span class="kbd-label">Next inline suggestion</span><div class="kbd-keys"><kbd>Alt</kbd><span class="kp">+</span><kbd>]</kbd></div></div>
+      <div class="kbd-row"><span class="kbd-label">Previous inline suggestion</span><div class="kbd-keys"><kbd>Alt</kbd><span class="kp">+</span><kbd>[</kbd></div></div>
+      <div class="kbd-row"><span class="kbd-label">Accept one word of inline suggestion</span><div class="kbd-keys"><kbd>Ctrl</kbd><span class="kp">+</span><kbd>→</kbd></div></div>
+      <div class="kbd-row"><span class="kbd-label">Accept one line of inline suggestion</span><div class="kbd-keys"><kbd>Ctrl</kbd><span class="kp">+</span><kbd>Alt</kbd><span class="kp">+</span><kbd>→</kbd></div></div>
+      <div class="kbd-row"><span class="kbd-label">Open suggestions panel (side-by-side view)</span><div class="kbd-keys"><kbd>Ctrl</kbd><span class="kp">+</span><kbd>Enter</kbd></div></div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">BUILT-IN CHAT TOOLS (#-mentions)</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">#changes</span></div><div class="cmd-desc">List of source control changes (staged and unstaged). Provides your current diff as context.</div><div class="cmd-ex">Review <span class="hp">#changes</span> for security vulnerabilities</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">#codebase</span></div><div class="cmd-desc">Perform a code search in the workspace to automatically find relevant context. Auto-searches for files/symbols related to your prompt.</div><div class="cmd-ex">How is authentication handled in <span class="hp">#codebase</span>?</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">#terminalSelection</span></div><div class="cmd-desc">Include the current terminal selection as context. Paste terminal output or errors directly into the prompt.</div><div class="cmd-ex">Why is <span class="hp">#terminalSelection</span> throwing this error?</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">#fetch</span></div><div class="cmd-desc">Fetch the contents of a URL and include it as context in your chat prompt.</div><div class="cmd-ex">Summarize <span class="hp">#fetch</span>:https://docs.example.com/api</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">#createAndRunTask</span></div><div class="cmd-desc">Create and run a new VS Code task in the workspace.</div><div class="cmd-ex">Use <span class="hp">#createAndRunTask</span> to run the test suite</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">#createDirectory</span></div><div class="cmd-desc">Create a new directory in the workspace via a tool call.</div><div class="cmd-ex">Use <span class="hp">#createDirectory</span> to set up src/components/</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">#createFile</span></div><div class="cmd-desc">Create a new file in the workspace.</div><div class="cmd-ex">Use <span class="hp">#createFile</span> to scaffold a new API endpoint</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">#file</span></div><div class="cmd-desc">Reference a specific file's contents. More explicit than letting Copilot auto-detect relevant files.</div><div class="cmd-ex">Explain <span class="hp">#file</span>:src/auth/LoginForm.tsx in plain English</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">#block</span></div><div class="cmd-desc">Reference a specific selected code block as context.</div><div class="cmd-ex">Fix the bug in <span class="hp">#block</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">#class / #function / #symbol</span></div><div class="cmd-desc">Reference a specific class, function, or symbol definition in the codebase.</div><div class="cmd-ex">Add a method to <span class="hp">#class</span>:UserService
+Optimize <span class="hp">#function</span>:processPayment</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Drag &amp; Drop Context</span></div><div class="cmd-desc">Drag files from Explorer, editor tabs, folders, or problem items from the Problems panel directly onto the Chat view to add as context.</div><div class="cmd-ex"><span class="cm"># Drag from Explorer → Chat view</span>
+<span class="cm"># Drag editor tab → Chat view</span>
+<span class="cm"># Drag folder → attaches all files inside</span>
+<span class="cm"># Drag from Problems panel → adds error context</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Vision / Image Context</span></div><div class="cmd-desc">Attach images (screenshots, UI mockups, diagrams) as context for your prompt. Paste from clipboard or drag onto chat.</div><div class="cmd-ex"><span class="cm"># Paste screenshot → Ctrl+V in chat</span>
+<span class="cm"># Drag image file → Chat view</span>
+<span class="cm"># Use: "Fix the layout shown in this screenshot"</span></div></div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">SLASH COMMANDS IN VS CODE CHAT</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">/explain</span><div class="tags"><span class="tag t-ess">essential</span></div></div><div class="cmd-desc">Explain selected code or active file. Use in Chat panel or inline chat. Generates plain-language description.</div><div class="cmd-ex"><span class="hp">/explain</span> what does this function do?</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">/fix</span><div class="tags"><span class="tag t-ess">essential</span></div></div><div class="cmd-desc">Propose a fix for the selected code or described bug. Also accessible from the editor context menu (right-click → Copilot → Fix).</div><div class="cmd-ex"><span class="hp">/fix</span>
+<span class="hp">/fix</span> the null pointer in the payment handler</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">/tests</span></div><div class="cmd-desc">Generate unit tests for selected code or active file. Detects your test framework from the project.</div><div class="cmd-ex"><span class="hp">/tests</span>
+<span class="hp">/tests</span> using Vitest and React Testing Library</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">/doc</span></div><div class="cmd-desc">Generate documentation comments (JSDoc, Python docstrings, etc.) for selected code. Auto-detects language.</div><div class="cmd-ex"><span class="hp">/doc</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">/new</span></div><div class="cmd-desc">Scaffold a new file or project from a description. Creates file structure and boilerplate code.</div><div class="cmd-ex"><span class="hp">/new</span> React TypeScript component for a user profile card
+@workspace <span class="hp">/new</span> Node.js REST API with Express and Prisma</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">/newNotebook</span></div><div class="cmd-desc">Create a new Jupyter notebook from a description. Generates code cells and markdown based on your task.</div><div class="cmd-ex"><span class="hp">/newNotebook</span> data analysis pipeline for CSV sales data</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">/clear</span></div><div class="cmd-desc">Clear the Chat panel conversation history. Starts fresh without closing the panel.</div><div class="cmd-ex"><span class="hp">/clear</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">/init</span></div><div class="cmd-desc">Auto-generate custom instructions based on your project's structure and coding patterns. Creates .github/copilot-instructions.md.</div><div class="cmd-ex"><span class="hp">/init</span>
+<span class="hp">/create-instructions</span> focus on TypeScript and React patterns</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">/startDebugging</span></div><div class="cmd-desc">Configure and start a debug session. Used with @vscode participant.</div><div class="cmd-ex">@vscode <span class="hp">/startDebugging</span> Node.js app</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">/runTask</span></div><div class="cmd-desc">Run a VS Code task by name. Used with @vscode or as a standalone command.</div><div class="cmd-ex">@vscode <span class="hp">/runTask</span> build</div></div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">CHAT PARTICIPANTS (@-mentions)</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">@workspace</span><div class="tags"><span class="tag t-ess">essential</span></div></div><div class="cmd-desc">Ask questions about your entire codebase. Copilot indexes the repo for context-aware answers about your project's specific structure, patterns, and code. Use for codebase navigation and understanding.</div><div class="cmd-ex"><span class="hp">@workspace</span> where is user authentication handled?
+<span class="hp">@workspace</span> how do we handle DB migrations?
+<span class="hp">@workspace</span> /new scaffold a React dashboard page</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">@vscode</span></div><div class="cmd-desc">Ask questions about VS Code features, settings, extensions, keybindings, commands. Scoped to VS Code knowledge.</div><div class="cmd-ex"><span class="hp">@vscode</span> how do I configure multi-cursor editing?
+<span class="hp">@vscode</span> /startDebugging Python Flask app
+<span class="hp">@vscode</span> what extension adds Docker support?</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">@terminal</span></div><div class="cmd-desc">Get help with shell commands, scripts, and terminal operations. Context-aware for your current OS and shell.</div><div class="cmd-ex"><span class="hp">@terminal</span> find files modified in the last 24 hours
+<span class="hp">@terminal</span> kill the process on port 3000
+<span class="hp">@terminal</span> explain this error: EACCES permission denied</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">@github</span></div><div class="cmd-desc">Access GitHub-specific features: search code, ask about repos, access Copilot knowledge bases. Requires GitHub Copilot extension.</div><div class="cmd-ex"><span class="hp">@github</span> what are recent issues in this repo?
+<span class="hp">@github</span> search for authentication examples</div></div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">SMART ACTIONS (editor context menu &amp; lightbulb)</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Generate Commit Message</span></div><div class="cmd-desc">In Source Control panel: click the sparkle icon next to the commit message field. Auto-generates a message from staged changes.</div><div class="cmd-ex"><span class="cm"># Source Control panel → commit message field</span>
+<span class="cm"># Click ✨ sparkle icon</span>
+<span class="cm"># Or: Ctrl+Shift+P → "Git: Generate Commit Message"</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Generate PR Description</span></div><div class="cmd-desc">In GitHub PR creation flow: auto-generates title and description from branch commits.</div><div class="cmd-ex"><span class="cm"># GitHub extension → Create PR → ✨ icon</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Fix with Copilot (Lightbulb)</span></div><div class="cmd-desc">When a lint/compiler error appears, the lightbulb (💡) offers "Fix with Copilot". Click to auto-apply a fix.</div><div class="cmd-ex"><span class="cm"># Red underline → hover → 💡 → Fix with Copilot</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Editor Context Menu</span></div><div class="cmd-desc">Right-click any selected code to get Copilot actions: Explain, Fix, Generate Docs, Generate Tests, Review, Rename Symbol.</div><div class="cmd-ex"><span class="cm"># Select code → Right-click → Copilot →</span>
+<span class="cm">#   Explain This</span>
+<span class="cm">#   Fix This</span>
+<span class="cm">#   Generate Docs</span>
+<span class="cm">#   Generate Tests</span>
+<span class="cm">#   Review and Comment</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Next Edit Suggestions (NES)</span></div><div class="cmd-desc">Copilot predicts the next logical change based on your current edits. Shows ghost text for the next location. Press Tab to jump to and apply the next suggestion.</div><div class="cmd-ex"><span class="cm"># Automatically appears as you edit</span>
+<span class="cm"># Arrow icon shows next edit location</span>
+<span class="cm"># Tab → jump to suggestion → Tab again to accept</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Semantic Search</span></div><div class="cmd-desc">AI-powered search across codebase. Finds conceptually relevant code, not just text matches. Accessible via Ctrl+Shift+P → "Search: Search with AI".</div><div class="cmd-ex"><span class="cm"># Ctrl+Shift+P → "Search with AI"</span>
+<span class="cm"># Or: in Search panel → click ✨ icon</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Review Code (Experimental)</span></div><div class="cmd-desc">Request a quick AI review pass of selected code or all uncommitted changes. Shows inline comments. Click "Start" in Source Control panel.</div><div class="cmd-ex"><span class="cm"># Select code → Right-click → Copilot → Review</span>
+<span class="cm"># Or: Source Control → Copilot Code Review</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Rename Symbol (AI)</span></div><div class="cmd-desc">AI-powered symbol renaming that suggests contextually appropriate names. Right-click symbol → Rename Symbol → see AI suggestions.</div><div class="cmd-ex"><span class="cm"># Right-click symbol → Rename Symbol (F2)</span>
+<span class="cm"># Copilot suggests better names based on context</span></div></div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">TERMINAL INTEGRATION</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Terminal Inline Chat</span></div><div class="cmd-desc">Ctrl+I in the terminal opens inline chat scoped to terminal context. Ask for shell commands, get them inserted into the terminal.</div><div class="cmd-ex"><span class="cm"># In terminal: Ctrl+I</span>
+<span class="cm"># "how do I list all running Node processes?"</span>
+<span class="cm"># Copilot inserts the command ready to run</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Terminal Error Explanation</span></div><div class="cmd-desc">When a command fails, Copilot offers to explain the error. Click the sparkle icon next to the failed command output.</div><div class="cmd-ex"><span class="cm"># Command fails → ✨ appears next to output</span>
+<span class="cm"># Click "Explain using Copilot"</span>
+<span class="cm"># Or: @terminal why did this fail?</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Windows Terminal Chat</span></div><div class="cmd-desc">Copilot Chat is available in Windows Terminal. Ask questions about commands without leaving the terminal.</div><div class="cmd-ex"><span class="cm"># Windows Terminal: Ctrl+Shift+. to open chat</span></div></div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">TESTING &amp; DEBUGGING</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Fix Test Failures</span></div><div class="cmd-desc">When a test fails, Copilot offers a "Fix with Copilot" button in the Testing panel. Analyzes the failure and proposes a fix.</div><div class="cmd-ex"><span class="cm"># Testing panel → failed test → "Fix with Copilot"</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Debug with Chat</span></div><div class="cmd-desc">Use Copilot chat to understand and resolve debugging issues. Ask about variable states, breakpoint placement, or what a specific stack trace means.</div><div class="cmd-ex">Why is <span class="hp">#file</span>:server.js throwing this error?
+<span class="hp">@workspace</span> where should I set a breakpoint for the login flow?</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">/setupTests</span></div><div class="cmd-desc">Set up a testing framework for the current project. Detects the stack and configures the appropriate test runner.</div><div class="cmd-ex"><span class="hp">/setupTests</span>
+<span class="hp">/setupTests</span> using Vitest</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">/fixTestFailure</span></div><div class="cmd-desc">Fix the currently selected failing test. Analyzes the test output and proposes targeted fixes.</div><div class="cmd-ex"><span class="hp">/fixTestFailure</span></div></div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">AGENTS MODE IN VS CODE</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Switch to Agent Mode</span><div class="tags"><span class="tag t-ess">essential</span></div></div><div class="cmd-desc">Ctrl+Shift+I switches the Chat view to use agents. In agent mode, Copilot can autonomously plan, implement, run commands, and verify across multiple files.</div><div class="cmd-ex"><span class="cm"># Ctrl+Shift+I → Agent mode</span>
+<span class="cm"># Give a high-level goal:</span>
+<span class="cm"># "Build a REST API for user management with CRUD"</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Background Agents (Copilot CLI)</span></div><div class="cmd-desc">Start a background Copilot CLI session from within VS Code. Runs autonomously while you continue other work. Multiple sessions can run in parallel.</div><div class="cmd-ex"><span class="cm"># Chat view → "New Background Session"</span>
+<span class="cm"># Supports Worktree isolation (auto-approved)</span>
+<span class="cm"># Or Workspace isolation (approve per-action)</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Cloud Agents (Coding Agent)</span></div><div class="cmd-desc">Assign issues to the Copilot coding agent in GitHub Actions. Creates a PR asynchronously without your machine running.</div><div class="cmd-ex"><span class="cm"># GitHub issue → assign to @copilot</span>
+<span class="cm"># Or: Chat view → "Create PR with Copilot"</span></div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Prompt Files (slash commands)</span></div><div class="cmd-desc">Reusable prompt templates stored as .prompt.md files. Create them in .github/prompts/ and invoke with /prompt-name in chat.</div><div class="cmd-ex"><span class="cm"># .github/prompts/review-pr.prompt.md</span>
+---
+description: Review PR for quality and security
+---
+Review the current branch changes for:
+1. Security vulnerabilities
+2. Test coverage gaps
+3. Performance issues
+
+<span class="cm"># Invoke: /review-pr</span></div></div>
+    </div>
+  </div>
+
+  <!-- AGENTS & CUSTOMIZATION -->
+  <div class="sub-panel" id="sub-cp-agents">
+    <div class="sec-head"><div class="sico sp">🤖</div><div><div class="sec-title">Agents &amp; Customization</div><div class="sec-desc">Custom agents, skills, hooks, and prompt files for VS Code and Copilot CLI</div></div></div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">CUSTOM AGENTS</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Create Custom Agent</span><div class="tags"><span class="tag t-adv">advanced</span></div></div><div class="cmd-desc">Custom agents are specialized AI personas defined in .agent.md files with YAML frontmatter. Define role, guidelines, tools, and model. Create via Command Palette: "Chat: New Custom Agent".</div><div class="cmd-ex"><span class="cm"># .github/agents/Reviewer.agent.md</span>
+---
+name: Reviewer
+description: Code review specialist for security
+  and performance. Use for reviewing PRs.
+tools: ['search/codebase', 'vscode/readFile']
+model: claude-opus-4-5
+---
+You are a senior security-focused code reviewer.
+Focus on: SQL injection, auth bypass, data exposure.</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Agent Locations</span></div><div class="cmd-desc">Agents can be stored at different scopes. More specific scope wins when names conflict.</div><div class="cmd-ex"><span class="cm"># Workspace (team shared):</span>
+.github/agents/*.agent.md
+
+<span class="cm"># User global (all projects):</span>
+~/.config/github-copilot/agents/*.agent.md
+
+<span class="cm"># Command Palette to create:</span>
+Ctrl+Shift+P → "Chat: New Custom Agent"</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Agent Isolation Modes</span><div class="tags"><span class="tag t-new">CLI agents</span></div></div><div class="cmd-desc">For Copilot CLI background agents, choose isolation: Worktree (isolated git branch, all tools auto-approved) or Workspace (same branch, approve per action).</div><div class="cmd-ex"><span class="cm"># Worktree isolation: safest</span>
+<span class="cm"># - Git worktree = separate folder</span>
+<span class="cm"># - All tool calls auto-approved</span>
+<span class="cm"># - Changes isolated until reviewed</span>
+
+<span class="cm"># Workspace isolation: direct changes</span>
+<span class="cm"># - Same workspace as you</span>
+<span class="cm"># - Default/Bypass/Autopilot permissions</span></div></div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">AGENT SKILLS</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Create a Skill</span></div><div class="cmd-desc">Skills are modular capabilities stored as SKILL.md files. Unlike prompt files (user-invoked), skills can be model-invoked automatically based on context. They appear as slash commands in chat.</div><div class="cmd-ex"><span class="cm"># .github/skills/code-review/SKILL.md</span>
+---
+name: code-reviewer
+description: Review code for quality and security.
+  Use when reviewing PRs or analyzing code.
+allowed-tools: Read, Grep, Glob
+---
+Review checklist:
+1. No exposed secrets or API keys
+2. Proper error handling
+3. Input validation
+4. Performance considerations</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Skill vs Prompt File</span></div><div class="cmd-desc">Prompt files: user-invoked, lightweight, single-task. Skills: can be auto-triggered by the model, support complex multi-file workflows. Both appear as /slash-commands.</div><div class="cmd-ex"><span class="cm"># Prompt file: .github/prompts/review.prompt.md</span>
+<span class="cm"># → user types /review to invoke</span>
+
+<span class="cm"># Skill: .github/skills/review/SKILL.md</span>
+<span class="cm"># → model invokes automatically when relevant</span>
+<span class="cm"># → also invocable as /review</span></div></div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">HOOKS</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Hook Configuration</span><div class="tags"><span class="tag t-adv">advanced</span></div></div><div class="cmd-desc">Execute shell commands at key lifecycle points. Available hooks: sessionStart, sessionEnd, preToolUse, postToolUse, userPromptSubmitted, agentStop, subagentStop, errorOccurred. From preToolUse, exit non-zero to block the tool call.</div><div class="cmd-ex"><span class="cm"># .github/hooks/format.json</span>
+{
+  "hooks": {
+    "<span class="hp">postToolUse</span>": [{
+      "matcher": "Edit|Write",
+      "hooks": [{
+        "type": "command",
+        "command": "npx prettier --write $FILE_PATH"
+      }]
+    }]
+  }
+}</div></div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--text3);font-family:var(--mono);margin-bottom:14px">PROMPT FILES</p>
+    <div class="cmd-grid">
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Create Prompt File</span></div><div class="cmd-desc">Reusable prompts stored as .prompt.md files. Invoke with /filename in chat. Can include YAML frontmatter for model, tools, and description. Store in .github/prompts/ for team sharing.</div><div class="cmd-ex"><span class="cm"># .github/prompts/create-react-form.prompt.md</span>
+---
+agent: 'agent'
+model: GPT-4o
+tools: ['search/codebase', 'vscode/askQuestions']
+description: 'Generate a new React form component'
+---
+Generate a new React form component.
+Use #tool:vscode/askQuestions for form name.
+Base it on templates in contoso/react-templates.</div></div>
+      <div class="cmd-card cp"><div class="cmd-top"><span class="cmd-name np">Run Prompt File</span></div><div class="cmd-desc">Three ways to run a prompt file: type /filename in chat, use Command Palette, or click the ▶ play button in the editor.</div><div class="cmd-ex"><span class="cm"># In Chat: type /create-react-form</span>
+<span class="cm"># With args: /create-react-form formName=MyForm</span>
+
+<span class="cm"># Command Palette:</span>
+Ctrl+Shift+P → "Chat: Run Prompt"
+
+<span class="cm"># In editor: open .prompt.md → click ▶</span></div></div>
+    </div>
+  </div>
+
 </div><!-- end copilot panel -->
 
 
@@ -1204,42 +1749,7 @@ document.querySelectorAll('.stab').forEach(btn => {
   });
 });
 
-// ── SEARCH ──
-const searchInput = document.getElementById('searchInput');
-const searchHint = document.getElementById('searchHint');
-
-searchInput.addEventListener('input', () => {
-  const q = searchInput.value.trim().toLowerCase();
-  if (!q) {
-    document.querySelectorAll('.cmd-card').forEach(c => c.classList.remove('search-hidden', 'search-match'));
-    document.querySelectorAll('.kbd-row').forEach(r => r.style.display = '');
-    searchHint.textContent = 'Type to filter across all commands';
-    return;
-  }
-
-  let matches = 0;
-
-  document.querySelectorAll('.cmd-card').forEach(card => {
-    const text = card.textContent.toLowerCase();
-    if (text.includes(q)) {
-      card.classList.remove('search-hidden');
-      card.classList.add('search-match');
-      matches++;
-    } else {
-      card.classList.add('search-hidden');
-      card.classList.remove('search-match');
-    }
-  });
-
-  document.querySelectorAll('.kbd-row').forEach(row => {
-    const text = row.textContent.toLowerCase();
-    row.style.display = text.includes(q) ? '' : 'none';
-  });
-
-  searchHint.textContent = matches === 0 ? 'No results found' : `${matches} command${matches !== 1 ? 's' : ''} matched`;
-});
-
-// Count commands
+// ── COMMAND COUNTS ──
 window.addEventListener('DOMContentLoaded', () => {
   const ccCount = document.querySelectorAll('#panel-claude .cmd-card').length;
   const cpCount = document.querySelectorAll('#panel-copilot .cmd-card').length;
